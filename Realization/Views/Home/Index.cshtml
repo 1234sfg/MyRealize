@@ -1,0 +1,43 @@
+﻿@{
+    ViewBag.Title = "";
+    //Layout = null;
+}
+@Styles.Render("~/Content/index")
+<div id="xyzIndexBody" class="xyz-indexbody xyz-body">
+    <div class="xyz-ib-banner">
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide" v-for="(item,index) in products" v-bind:key="index"><img v-bind:src="item.ProductPath" ></div>
+            </div>
+            <div class="swiper-pagination"></div>
+            <div class="swiper-button-prev swiper-button">
+                <
+            </div>
+            <div class="swiper-button-next swiper-button">
+                >
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    function HomeB() {
+        var productItems = typeof @Html.Raw(ViewBag.ProductList) == 'string' ? JSON.parse(@Html.Raw(ViewBag.ProductList)) :@Html.Raw(ViewBag.ProductList);
+        // 身体
+        var xyzIndexBody = new Vue({
+            el: '#xyzIndexBody',
+            data() {
+                return {
+                    products: productItems
+                }
+            },
+        });
+        //大轮播
+        var mySwiper = new Swiper('.swiper-container', {
+            loop: true,
+            autoplay: 2000,
+            pagination: '.swiper-pagination',
+            nextButton: '.swiper-button-next',
+            prevButton: '.swiper-button-prev',
+        });
+    }
+</script>

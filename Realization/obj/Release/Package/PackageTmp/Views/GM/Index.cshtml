@@ -1,0 +1,47 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/GM_Layout.cshtml";
+}
+
+<h2>所有类型商品列表</h2>
+<div id="xyz-ProductList">
+    <div class="xyz-productitem" v-for="(productitem,productIndex) in productlist" v-bind:key="productIndex">
+        <!-- 这里要改的  -->
+        <form action="/GM/Index" method="post">
+            <div class="xyz-item-row">{{productitem.ProductId}}</div>
+            <div class="xyz-item-row">{{productitem.ProductType}}</div>
+            <div class="xyz-item-row">{{productitem.ProductBrand}}</div>
+            <div class="xyz-item-row">{{productitem.ProductName}}</div>
+            <div class="xyz-item-row">{{productitem.ProductPriceIn}}</div>
+            <div class="xyz-item-row">{{productitem.ProductPriceOut}}</div>
+            <div class="xyz-item-row">{{productitem.ProductModel}}</div>
+            <div class="xyz-item-row">{{productitem.ProductDetail}}</div>
+            <div class="xyz-item-row">{{productitem.ProductPath}}</div>
+            <input type="submit" v-bind:name="productitem.ProductId" v-bind:value="productitem.ProductType">
+        </form>
+    </div>
+</div>
+<script>
+    window.onload = function () {
+        var productlist = typeof @Html.Raw(ViewBag.ProductList) == 'string' ? JSON.parse(@Html.Raw(ViewBag.ProductList)) :@Html.Raw(ViewBag.ProductList);
+        //是string就转化成对象，不是string就直接用。
+        console.log(productlist);
+        var xyzProductList = new Vue({
+            el: '#xyz-ProductList',
+            components: {},
+            data() {
+                return {
+                    productlist: productlist,
+                };
+            },
+            methods: {
+            },
+        });
+    }
+</script>
+<style>
+    .xyz-productitem form {
+        display: flex;
+    }
+</style>

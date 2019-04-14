@@ -1,0 +1,62 @@
+﻿
+@{
+    ViewBag.Title = "Register";
+}
+
+<h2>注册</h2>
+
+<form action="/Home/Register" method="post">
+    <div class="Register">
+        <div class="line">
+            <div class="line_left">
+                <label>用户名</label>
+            </div>
+            <div class="line_right">
+                <input type="text" name="UserNAME" required/>
+            </div>
+        </div>
+        <br />
+        <div class="line">
+            <div class="line_left">
+                <label>用户密码</label>
+            </div>
+            <div class="line_right">
+                <input type="password" name="UserPWD" required />
+            </div>
+        </div>
+        <br />
+        <div class="line">
+            <div class="line_left">
+                <label>确认密码</label>
+            </div>
+            <div class="line_right">
+                <input type="password" name="UserPWDS"required />
+            </div>
+        </div>
+        <br />
+        <div class="line">
+            <div class="line_left">
+                <label>邮箱</label>
+            </div>
+            <div class="line_right">
+                <input type="text" name="UserEMAIL" required />
+            </div>
+        </div>
+        <br />
+        <div class="line">
+            <div class="line_left">
+                <label>手机</label>
+            </div>
+            <div class="line_right">
+                <input type="text" name="UserPHONE" required />
+            </div>
+        </div>
+        <br />
+        <div class="line">
+            <input id="Register_Btn" type="submit" value="注册" OnClick="Register_Btn_Click" name="Register_Btn_Click" />
+        </div>
+    </div>
+</form>
+<script>
+    function HomeB() { }
+</script>

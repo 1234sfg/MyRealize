@@ -1,0 +1,24 @@
+﻿
+@{
+    ViewBag.Title = "AlertUserPwd";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>AlertUserPwd</h2>
+
+<form action="/Home/AlertUserPwd" method="post" onsubmit="return submit_sure()">
+    新密码：<input type="text" name="NewPwd" required />
+    确认密码：<input type="text" name="ConfirmPwd" required />
+    <input type="submit" value="确认修改" name="AlertPwd" />
+</form>
+<script>
+    function HomeB() { }
+    function submit_sure() {
+        var cf = confirm("确定要进行这个操作吗?");
+        if (cf == true) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+</script>

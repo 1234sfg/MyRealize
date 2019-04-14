@@ -1,0 +1,86 @@
+﻿
+@{
+    ViewBag.Title = "Imformation";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Imformation</h2>
+<div id="xyzInformation" class="xyz-information">
+    <!--个人信息-->
+    <div class="xyz-base-information">
+        <form action="/Home/Imformation" method="post" onsubmit="return submit_sure()">
+            <!--姓名不能重复，手机不能重复，邮箱不能重复-->
+            <div>用户名：{{userItem[0].UserName}}</div>
+            <div>邮箱：<input type="text" name="Email" v-bind:value="userItem[0].UserEmail" required /> <input type="submit" value="修改" name="Alert_Email" /></div>
+            <div>手机：<input type="text" name="Phone" v-bind:value="userItem[0].UserPhone" required /> <input type="submit" value="修改" name="Alert_Phone" /></div>
+        </form>
+        <a href="/Home/AlertUserPwd">修改密码</a>
+    </div>
+    <hr />
+    <!--遍历收货地址，可修改删除-->
+    我的收货地址
+    <hr />
+    <div class="xyz-address" v-for="(item,addressIndex) in userAddressItems" v-bind:key="addressIndex">
+        
+        <form action="/Home/Imformation" method="post" onsubmit="return submit_sure()" name="AddressListForm">
+            <input type="hidden" name="AddressId" v-bind:value="item.Id" />
+            <div>收货地址{{addressIndex+1}}</div>
+            <div>收货人姓名：<input type="text" name="Name" v-bind:value="item.Name" required/></div>
+            <div>收货人电话：<input type="text" name="Phone" v-bind:value="item.Phone" required/></div>
+            <div>收货人地址：<input type="text" name="Address" v-bind:value="item.Address" required/></div>
+            <input type="submit" value="修改" name="AddressCURD" />
+            <input type="submit" value="删除" name="AddressCURD"  />
+        </form>
+    </div>
+    <hr />
+    <!--添加收货地址-->
+    <div v-if="userAddressItems.length<5">
+        添加收货地址
+        <form action="/Home/Imformation" method="post" name="AddressAddform">
+            <div>收货人姓名：<input type="text" name="Name" required /></div>
+            <div>收货人电话：<input type="text" name="Phone" required /></div>
+            <div>收货人地址：<input type="text" name="Address" required /></div>
+            <input type="submit" value="添加" name="AddressCURD" />
+        </form>
+    </div>
+</div>
+<script>
+    function HomeB() {
+        var userItem = typeof @Html.Raw(ViewBag.UserItem) == 'string' ? JSON.parse(@Html.Raw(ViewBag.UserItem)) :@Html.Raw(ViewBag.UserItem);
+        var userAddressItems = typeof @Html.Raw(ViewBag.UserAddressItems) == 'string' ? JSON.parse(@Html.Raw(ViewBag.UserAddressItems)) :@Html.Raw(ViewBag.UserAddressItems);
+        //是string就转化成对象，不是string就直接用。
+        var xyzInformation = new Vue({
+            el: '#xyzInformation',
+            components: {},
+            data() {
+                return {
+                    userItem: userItem,
+                    userAddressItems: userAddressItems,
+                };
+            },
+            methods: {
+            },
+        });
+    }
+        //确认提交
+    function submit_sure() {
+        //if (document.AddressListForm.submit.value == "修改") {
+        //    console.log("123123213")
+            var cf = confirm("确定要进行这个操作吗?");
+            if (cf == true) {
+                return true;
+            } else {
+                return false;
+            }
+        //}
+        //else if (document.AddressListForm.submit.value == "删除") {
+        //    var cf = confirm("确定删除吗?");
+        //    if (cf == true) {
+        //        return true;
+        //    } else {
+        //        return false;
+        //    }
+        //}
+    }
+
+</script>
