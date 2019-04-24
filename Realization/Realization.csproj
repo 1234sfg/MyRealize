@@ -199,18 +199,20 @@
     <Content Include="Views\Shared\GM_Layout.cshtml" />
     <Content Include="Views\GM\Index.cshtml" />
     <Content Include="Views\Home\Imformation.cshtml" />
-    <Content Include="Views\Home\AlertUserPwd.cshtml" />
     <Content Include="Views\Home\Carts.cshtml" />
     <Content Include="Views\Home\MyOrders.cshtml" />
     <Content Include="Views\Home\Messages.cshtml" />
     <Content Include="Views\GM\GMLogin.cshtml" />
     <Content Include="Views\GM\GMList.cshtml" />
-    <Content Include="Views\GM\ReSetPwd.cshtml" />
     <Content Include="Views\GM\ProductList.cshtml" />
-    <Content Include="Views\GM\AddProduct.cshtml" />
     <Content Include="Views\GM\StockList.cshtml" />
     <Content Include="Views\GM\OrderList.cshtml" />
     <Content Include="Views\GM\ReasonList.cshtml" />
+    <Content Include="Views\GM\SoldList.cshtml" />
+    <Content Include="Views\GM\UserMessages.cshtml" />
+    <Content Include="Views\GM\UserReasons.cshtml" />
+    <Content Include="Views\GM\AlertGMPwd.cshtml" />
+    <Content Include="Views\Home\AlertUserPwd.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

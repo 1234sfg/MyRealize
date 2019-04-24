@@ -2,46 +2,56 @@
 @{
     Layout = null;
 }
-
 <!DOCTYPE html>
-
 <html>
 <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>@ViewBag.Title</title>
-        @Styles.Render("~/Content/css")
-        @Scripts.Render("~/bundles/modernizr")
-        @Scripts.Render("~/bundles/vue")
-        <script type="text/javascript" src="../../Scripts/vue.js"></script>
-        <script type="text/javascript">
-        /*  判断是否登录 */
-       // var list = JSON.parse('@Html.Raw(ViewBag.list)');引入viewbag的数组
-        window.onload = function () {
-            var GMuser = "@Session["GMUsers"]";
-            function GMdenglu() {
-            if (GMuser == null || GMuser == "") { alert('请登录'); window.location.href = "../GM/Login";return false; }
-            else { alert('你好，管理员' + GMuser); window.location.href = "#"; }
-            }
-            var login = true;
-            if (GMuser == "" || GMuser == null) { login = true; }
-            else { login = false; }
-            var xyzNavbar = new Vue({
-                el: '#xyz-GMHead',		//我认为是个选择器。
-                data: {			//里边放参数，下边对参数进行赋值
-                    login:login        //如果false不显示
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/vue")
+    @Scripts.Render("~/bundles/swiper")
+    @Styles.Render("~/Content/css")
+    <script type="text/javascript" src="../../Scripts/vue.js"></script>
+    <script type="text/javascript"> 
+    window.onload = function () { HomeA(); HomeB(); }
+    function HomeA() {
+            var GMusers = "@Session["GMUsers"]";
+            var GMPower = "@Session["GMPower"]";
+            var GMLogin = false;
+            
+            if (GMusers == "" || GMusers == null) { GMLogin = true; }
+            else { GMLogin = false; }
+            var xyzGMNavbar = new Vue({
+                el: '#xyz-GMNavbar',		//我认为是个选择器。
+                data(){			//里边放参数，下边对参数进行赋值
+                    return { GMLogin: GMLogin}      //如果false不显示
+                },
+                methods: {
+                    enterAll() { }
                 }
-            });
+        });
+    }
+    </script>
+    <style scoped>
+        .xyz-link {
+            cursor: pointer;
+            font-size: 14px;
+            color: crimson;
+        } 
+            .xyz-link:hover {
+                color: red;
+            }
+        .body-contents {
+            margin-top: 50px;
         }
-        </script>
-    <style>
-        .xyz-link{cursor:pointer;font-size:14px;color:crimson;}
-            .xyz-link:hover {color:red;}
     </style>
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top " id="xyz-GMHead">
+    <div class="navbar navbar-inverse navbar-fixed-top" id="xyz-GMNavbar">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -49,22 +59,42 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("立荣电器", "Index", "GM", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("立荣电器管理后台", "Index", "GM", new { area = "" }, new { @class = "navbar-brand" })
             </div>
-           <!-- 剪切掉了A  -->
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("商品", "ProductList", "GM")</li>
+                    @*新产品添加，旧产品删除，修改*@
+                    <li>@Html.ActionLink("订单", "StockList", "GM")</li>
+                    @*出货*@
+                    <li>@Html.ActionLink("库存", "StockList", "GM")</li>
+                    @*进货*@
+                    <li>@Html.ActionLink("销售量", "SoldList", "GM")</li>
+                    @*查询现有订单和被删除订单*@
+                    <li>@Html.ActionLink("客户留言", "UserMessages", "GM")</li>
+                    @*查询客户留言*@
+                    @*点击名字后查询客户基本信息*@
+                    <li>@Html.ActionLink("售后", "UserReasons", "GM")</li>
+                    @*退货处理交流*@
+                    @*点击名字后查询客户基本信息*@
+                </ul>
+                <ul v-if="GMLogin" class="nav navbar-nav navbar-right">
+                    <li>@Html.ActionLink("登录", "GMLogin", "GM")</li>
+                </ul>
+                <ul v-else class="nav navbar-nav navbar-right">
+                    <li><a href="#">你好，@Session["GMPower"]：@Session["GMUsers"]</a></li>
+                    <li>@Html.ActionLink("注销", "GMLogout", "GM")</li>
+                </ul>
+            </div>
         </div>
     </div>
-    <div>
-    </div>
-    <div class="container body-content">
+    <div class="container body-contents">
         @RenderBody()
         <hr />
         <footer>
             <p>&copy; @DateTime.Now.Year 立荣电器商店</p>
         </footer>
     </div>
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 </body>
 </html>

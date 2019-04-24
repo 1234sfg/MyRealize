@@ -2,7 +2,105 @@
 @{
     ViewBag.Title = "GMList";
     Layout = "~/Views/Shared/GM_Layout.cshtml";
+    
 }
 
-<h2>GMList</h2>
-
+<div id="xyzManagerList">
+    <h2>管理员列表</h2>
+    <div class="xyz-manager" v-for="(item,GMIndex) in ManagersItem" v-bind:key="GMIndex">
+        <form action="/GM/GMList" method="post"  name="ManagerListForm" onsubmit="return submit_sure()">
+            <input type="hidden" name="GMId" v-bind:value="item.Id" />
+            <div>管理员{{GMIndex+1}}</div>
+            <div>姓名：<input type="text" name="Name" v-bind:value="item.Name" required /></div>
+            <div>权限：<input type="text" name="Power" v-bind:value="item.Power" required /></div>
+            <div>电话：<input type="text" name="Phone" v-bind:value="item.Phone" required /></div>
+            <input type="submit" value="删除" name="GMManagersCURD" />
+        </form>
+    </div>
+    <hr/>
+    <div>
+        <h2>添加管理员</h2>
+        <form action="/GM/GMList" method="post" onsubmit="return submit_sure()">
+            <div class="Register">
+                <div class="line">
+                    <div class="line_left">
+                        <label>用户名</label>
+                    </div>
+                    <div class="line_right">
+                        <input type="text" name="GMName" required />
+                    </div>
+                </div>
+                <br />
+                <div class="line">
+                    <div class="line_left">
+                        <label>用户密码</label>
+                    </div>
+                    <div class="line_right">
+                        <input type="password" name="GMPassword" required />
+                    </div>
+                </div>
+                <br />
+                <div class="line">
+                    <div class="line_left">
+                        <label>确认密码</label>
+                    </div>
+                    <div class="line_right">
+                        <input type="password" name="GMRePassword" required />
+                    </div>
+                </div>
+                <br />
+                <div class="line">
+                    <div class="line_left">
+                        <label>权限</label>
+                    </div>
+                    <div class="line_right">
+                        <select name="GMPower">
+                            <option>超级管理员</option>
+                            <option>商品管理员</option>
+                            <option>仓库管理员</option>
+                        </select>
+                    </div>
+                </div>
+                <br />
+                <div class="line">
+                    <div class="line_left">
+                        <label>手机</label>
+                    </div>
+                    <div class="line_right">
+                        <input type="text" name="GMPhone" required />
+                    </div>
+                </div>
+                <br />
+                <div class="line">
+                    <input type="submit" value="添加" name="AddGMBtn" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    function HomeB() {
+        var ManagersItem = typeof @Html.Raw(ViewBag.ManagersItem) == 'string'?JSON.parse(@Html.Raw(ViewBag.ManagersItem)):@Html.Raw(ViewBag.ManagersItem);
+        var xyzManagerList = new Vue({
+            el: '#xyzManagerList',
+            components: {},
+            data() {
+                return {
+                    ManagersItem: ManagersItem
+                };
+            },
+            methods: {
+            },
+        });
+    }
+    function submit_sure() {
+        var cf = confirm("确定要进行这个操作吗?");
+        if (cf == true) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+</script>
+<style scoped>
+</style>

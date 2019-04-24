@@ -2,32 +2,35 @@
     ViewBag.Title = "用户登录";
 }
 
-    <h2>登录</h2>
-    <form action="/Home/Login" method="post">
-        <div class="login">
-            <div class="line">
-                <div class="line_left">
-                    <label>用户手机</label>
-                </div>
-                <div class="line_right">
-                    <input type="text" name="UserPhone" />
-                </div>
+<h2>登录</h2>
+<form action="/Home/Login" method="post">
+    <div class="login">
+        <div class="line">
+            <div class="line_left">
+                <label>用户手机</label>
             </div>
-            <br />
-            <div class="line">
-                <div class="line_left">
-                    <label>用户密码</label>
-                </div>
-                <div class="line_right">
-                    <input type="password" name="UserPWD" />
-                </div>
-            </div>
-            <br />
-            <div class="line">
-                <input type="submit" value="登录" name="Login_Btn_Click" />
+            <div class="line_right">
+                <input type="text" name="UserPhone" />
             </div>
         </div>
-    </form>
-    <script>
+        <br />
+        <div class="line">
+            <div class="line_left">
+                <label>用户密码</label>
+            </div>
+            <div class="line_right">
+                <input type="password" name="UserPWD" />
+            </div>
+        </div>
+        <br />
+        <div class="line">
+            <input type="submit" value="登录" name="Login_Btn_Click" />
+        </div>
+    </div>
+</form>
+<script>
     function HomeB() { }
-    </script>
+</script>
+
+<style scoped>
+</style>

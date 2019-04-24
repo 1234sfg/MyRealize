@@ -4,5 +4,137 @@
     Layout = "~/Views/Shared/GM_Layout.cshtml";
 }
 
-<h2>ProductList</h2>
-
+<div id="xyz-ProductList">
+    <div class="xyz-pro-list">
+        <h2>商品列表</h2>
+        <div class="xyz-formtitle">
+            <div class="xyz-item-row xyz-ir-id"></div>
+            <div class="xyz-item-row xyz-ir-type">产品类型</div>
+            <div class="xyz-item-row xyz-ir-brand">品牌</div>
+            <div class="xyz-item-row xyz-ir-name">名称</div>
+            <div class="xyz-item-row xyz-ir-pricein">进价</div>
+            <div class="xyz-item-row xyz-ir-priceout">卖价</div>
+            <div class="xyz-item-row xyz-ir-model">型号</div>
+            <div class="xyz-item-row xyz-ir-detail">详情描述</div>
+            <div class="xyz-item-row xyz-ir-path">图片路径</div>
+        </div>
+        <div class="xyz-productitem" v-for="(item,productIndex) in productlist" v-bind:key="productIndex">
+            <form action="/GM/ProductList" method="post" onsubmit="return submit_sure()">
+                <div class="xyz-item-row xyz-ir-id"><input type="hidden" name="ProductId" v-bind:value="item.ProductId" /></div>
+                <div class="xyz-item-row xyz-ir-type"><input type="text" name="ProductType" v-bind:value="item.ProductType" /></div>
+                <div class="xyz-item-row xyz-ir-brand"><input type="text" name="ProductBrand" v-bind:value="item.ProductBrand" /></div>
+                <div class="xyz-item-row xyz-ir-name"><input type="text" name="ProductName" v-bind:value="item.ProductName" /></div>
+                <div class="xyz-item-row xyz-ir-pricein"><input type="text" name="ProductPriceIn" v-bind:value="item.ProductPriceIn" /></div>
+                <div class="xyz-item-row xyz-ir-priceout"><input type="text" name="ProductPriceOut" v-bind:value="item.ProductPriceOut" /></div>
+                <div class="xyz-item-row xyz-ir-model"><input type="text" name="ProductModel" v-bind:value="item.ProductModel" /></div>
+                <div class="xyz-item-row xyz-ir-detail"><input type="text" name="ProductDetail" v-bind:value="item.ProductDetail" /></div>
+                <div class="xyz-item-row  xyz-ir-path"><input type="text" name="ProductPath" v-bind:value="item.ProductPath" /></div>
+                <div class="xyz-item-row">
+                    <input type="submit" name="ProductCRUD" value="删除">
+                </div>
+                <div class="xyz-item-row">
+                    <input type="submit" name="ProductCRUD" value="修改">
+                </div>
+            </form>
+        </div>
+        <hr />
+    </div>
+    <div class="xyz-pro-add">
+        <h2>商品新增</h2>
+        <div>
+            <form class="xyz-item-add" action="/GM/ProductList" method="post" onsubmit="return submit_sure()">
+                <div class="xyz-item-row">  
+                </div>
+                <div class="xyz-item-row">
+                    产品类型<select name="ProductType">
+                        <option>空调</option>
+                        <option>冰箱</option>
+                        <option>电视机</option>
+                        <option>热水器</option>
+                        <option>洗衣机</option>
+                        <option>其他</option>
+                    </select>
+                </div>
+                <div class="xyz-item-row">品牌<input type="text" name="ProductBrand" required/></div>
+                <div class="xyz-item-row">名称<input type="text" name="ProductName" /></div>
+                <div class="xyz-item-row">
+                    进价<input type="number" onblur="if (!/^\d+(\.\d+)?$/.test(this.value)){this.value='';}" step="0.01" name="ProductPriceIn" required/>
+                </div>
+                <div class="xyz-item-row">
+                    卖价<input type="number" onblur="if (!/^\d+(\.\d+)?$/.test(this.value)){this.value='';}" step="0.01" name="ProductPriceOut" required />
+                </div>
+                <div class="xyz-item-row">型号<input type="text" name="ProductModel" required /></div>
+                <div class="xyz-item-row">详情描述<input type="text" name="ProductDetail" /></div>
+                <div class="xyz-item-row">图片路径<input type="text" name="ProductPath" required/></div>
+                <input type="submit" name="ProductCRUD" value="添加">
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    function HomeB() {
+        var productlist = typeof @Html.Raw(ViewBag.ProductList) == 'string' ? JSON.parse(@Html.Raw(ViewBag.ProductList)) :@Html.Raw(ViewBag.ProductList);
+        //是string就转化成对象，不是string就直接用。
+        //console.log(productlist);
+        var xyzProductList = new Vue({
+            el: '#xyz-ProductList',
+            components: {},
+            data() {
+                return {
+                    productlist: productlist,
+                };
+            },
+            methods: {
+            },
+        });
+    }
+    function submit_sure() {
+        var cf = confirm("确定要进行这个操作吗?");
+        if (cf == true) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+</script>
+<style scoped>
+    .xyz-pro-list {
+        
+    }
+    .xyz-pro-add{margin-top:100px;}
+    .xyz-productitem form, .xyz-formtitle {
+        display: flex;
+       
+    }
+    .xyz-formtitle {
+        margin-top: 50px;
+    }
+    .xyz-item-row{height:30px}
+    .xyz-ir-id{
+        width:50px;
+    }
+    .xyz-ir-type {
+        width: 70px;
+    }
+    .xyz-ir-brand {
+        width: 50px;
+    }
+    .xyz-ir-name {
+        width: 50px;
+    }
+    .xyz-ir-pricein {
+        width: 50px;
+    }
+    .xyz-ir-priceout {
+        width: 50px;
+    }
+    .xyz-ir-model {
+        width: 200px;
+    }
+    .xyz-ir-detail {
+        width: 150px;
+    }
+    .xyz-ir-path {
+        width: 300px;
+    }
+</style>

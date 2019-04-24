@@ -21,15 +21,14 @@
     我的收货地址
     <hr />
     <div class="xyz-address" v-for="(item,addressIndex) in userAddressItems" v-bind:key="addressIndex">
-        
         <form action="/Home/Imformation" method="post" onsubmit="return submit_sure()" name="AddressListForm">
             <input type="hidden" name="AddressId" v-bind:value="item.Id" />
             <div>收货地址{{addressIndex+1}}</div>
-            <div>收货人姓名：<input type="text" name="Name" v-bind:value="item.Name" required/></div>
-            <div>收货人电话：<input type="text" name="Phone" v-bind:value="item.Phone" required/></div>
-            <div>收货人地址：<input type="text" name="Address" v-bind:value="item.Address" required/></div>
+            <div>收货人姓名：<input type="text" name="Name" v-bind:value="item.Name" required /></div>
+            <div>收货人电话：<input type="text" name="Phone" v-bind:value="item.Phone" required /></div>
+            <div>收货人地址：<input type="text" name="Address" v-bind:value="item.Address" required /></div>
             <input type="submit" value="修改" name="AddressCURD" />
-            <input type="submit" value="删除" name="AddressCURD"  />
+            <input type="submit" value="删除" name="AddressCURD" />
         </form>
     </div>
     <hr />
@@ -46,6 +45,7 @@
 </div>
 <script>
     function HomeB() {
+        console.log("123");
         var userItem = typeof @Html.Raw(ViewBag.UserItem) == 'string' ? JSON.parse(@Html.Raw(ViewBag.UserItem)) :@Html.Raw(ViewBag.UserItem);
         var userAddressItems = typeof @Html.Raw(ViewBag.UserAddressItems) == 'string' ? JSON.parse(@Html.Raw(ViewBag.UserAddressItems)) :@Html.Raw(ViewBag.UserAddressItems);
         //是string就转化成对象，不是string就直接用。
@@ -84,3 +84,5 @@
     }
 
 </script>
+<style scoped>
+</style>

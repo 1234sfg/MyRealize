@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -29,10 +30,15 @@
             }); 
         }
     </script>
+    <style scoped>
+        .body-contents {
+            margin-top: 50px;
+        }
+    </style>
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top" id="xyz-Navbar">
-        <div class="container">
+        <div class="container body-content">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="icon-bar"></span>
@@ -61,7 +67,7 @@
         </div>
     </div>
 
-    <div class="container body-content">
+    <div class="container body-contents">
         @RenderBody()
         <hr />
         <footer>

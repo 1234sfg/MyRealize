@@ -10,73 +10,24 @@ namespace Realization.Controllers
     public class HomeController : Controller
     {
         /// <summary>
-        /// 页面-主页
-        /// 浏览商品信息
-        /// </summary>
-        public ActionResult Index()
-        {
-            SqlConnection conn = Dbconn.getConnn();
-            SqlCommand sqlcommand = new SqlCommand();//(sql语句，连接对象和字符串)
-            sqlcommand.Connection = conn;
-            sqlcommand.CommandText = "select * from Products";
-            try
-            {
-                conn.Open();//打开数据库
-                SqlDataReader sdr = sqlcommand.ExecuteReader();
-                var products = new List<Products> { };
-                while (sdr.Read())
-                {
-                    products.Add(new Products
-                    {
-                        ProductId = sdr.GetInt32(0),
-                        ProductType = sdr.GetString(1),
-                        ProductBrand = sdr.GetString(2),
-                        ProductName = sdr.GetString(3),
-                        ProductPriceIn = sdr.GetDouble(4),
-                        ProductPriceOut = sdr.GetDouble(5),
-                        ProductModel = sdr.GetString(6),
-                        ProductDetail = sdr.GetString(7),
-                        ProductPath = sdr.GetString(8)
-                    });
-                }
-                sdr.Close();
-                ViewBag.ProductList = Newtonsoft.Json.JsonConvert.SerializeObject(products);
-            }
-            catch (Exception ee)
-            {
-                Response.Write(ee);
-                return View();
-            }
-            finally
-            {
-                sqlcommand = null;
-                conn.Close();//关闭数据库
-                conn = null;
-            }
-            return View();
-        }
-        /// <summary>
-        /// 页面-关于店家
+        ///  关于---已完成
         /// </summary>
         /// <returns></returns>
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
-
             return View();
         }
         /// <summary>
-        /// 页面-店家联系方式
+        ///  联系方式---已完成
         /// </summary>
         /// <returns></returns>
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
-
+            ViewBag.Message = "Your contact page."; 
             return View();
         }
         /// <summary>
-        /// 功能-注册页 
+        /// 注册页---已完成 
         /// </summary>
         public ActionResult Register(string Register_Btn_Click)
         {
@@ -86,62 +37,53 @@ namespace Realization.Controllers
                 string Userpwd = Request["UserPWD"];
                 string Userpwds = Request["UserPWDS"];
                 string Useremail = Request["UserEMAIL"];
-                string Userphone = Request["UserPHONE"];
-
+                string Userphone = Request["UserPHONE"]; 
                 if (Userpwds == Userpwd)
                 {
                     //注册时加密
                     Userpwd = Models.Utils.HashUtil.GetSha256FromString(Userpwd);
-                    SqlConnection conn = Dbconn.getConnn();
-
-                    SqlCommand sqlcommand1 = new SqlCommand();//sql语句，连接对象和字符串  1用于注册，插入数据
-                    sqlcommand1.Connection = conn;
-                    sqlcommand1.CommandText = @"insert into Users(username,userpassword,useremail,userphone)values(@Username,@Userpwd,@Useremail,@Userphone)";
-                    sqlcommand1.Parameters.AddWithValue("@Username", Username);
-                    sqlcommand1.Parameters.AddWithValue("@Userpwd", Userpwd);
-                    sqlcommand1.Parameters.AddWithValue("@Useremail", Useremail);
-                    sqlcommand1.Parameters.AddWithValue("@Userphone", Userphone);
-
-                    SqlCommand sqlcommand2 = new SqlCommand();//2号判断用户名是否存在
-                    sqlcommand2.Connection = conn;
-                    sqlcommand2.CommandText = @"select * from Users where username=@Username";
-                    sqlcommand2.Parameters.AddWithValue("@Username", Username);
-
-                    SqlCommand sqlcommand3 = new SqlCommand();//3号判断手机是否存在
-                    sqlcommand3.Connection = conn;
-                    sqlcommand3.CommandText = @"select * from Users where userphone=@Userphone";
-                    sqlcommand3.Parameters.AddWithValue("@Userphone", Userphone);
-
-                    SqlCommand sqlcommand4 = new SqlCommand();//4号判断邮箱是否存在
-                    sqlcommand4.Connection = conn;
-                    sqlcommand4.CommandText = @"select * from Users where useremail=@Useremail";
-                    sqlcommand4.Parameters.AddWithValue("@Useremail", Useremail);
-
+                    SqlConnection conn = Dbconn.getConnn(); 
+                    SqlCommand AddUser = new SqlCommand();//sql语句，连接对象和字符串  1用于注册，插入数据
+                    AddUser.Connection = conn;
+                    AddUser.CommandText = @"insert into Users(username,userpassword,useremail,userphone)values(@Username,@Userpwd,@Useremail,@Userphone)";
+                    AddUser.Parameters.AddWithValue("@Username", Username);
+                    AddUser.Parameters.AddWithValue("@Userpwd", Userpwd);
+                    AddUser.Parameters.AddWithValue("@Useremail", Useremail);
+                    AddUser.Parameters.AddWithValue("@Userphone", Userphone); 
+                    SqlCommand IfName = new SqlCommand();//2号判断用户名是否存在
+                    IfName.Connection = conn;
+                    IfName.CommandText = @"select * from Users where username=@Username";
+                    IfName.Parameters.AddWithValue("@Username", Username); 
+                    SqlCommand IfPhone = new SqlCommand();//3号判断手机是否存在
+                    IfPhone.Connection = conn;
+                    IfPhone.CommandText = @"select * from Users where userphone=@Userphone";
+                    IfPhone.Parameters.AddWithValue("@Userphone", Userphone); 
+                    SqlCommand IfEmail = new SqlCommand();//4号判断邮箱是否存在
+                    IfEmail.Connection = conn;
+                    IfEmail.CommandText = @"select * from Users where useremail=@Useremail";
+                    IfEmail.Parameters.AddWithValue("@Useremail", Useremail); 
                     try
                     {
-                        conn.Open();//打开数据库
-
-                        SqlDataReader sqldatareader2 = sqlcommand2.ExecuteReader();
-                        bool flag2 = sqldatareader2.Read();//上下三行，判断有没有读到这个用户名
-                        sqldatareader2.Close();
-
-                        if (flag2 == false)
+                        conn.Open();//打开数据库 
+                        SqlDataReader NameReader = IfName.ExecuteReader();
+                        bool NameExist = NameReader.Read();//上下三行，判断有没有读到这个用户名
+                        NameReader.Close(); 
+                        if (NameExist == false)
                         {
-                            SqlDataReader sqldatareader3 = sqlcommand3.ExecuteReader();
-                            bool flag3 = sqldatareader3.Read();//上下三行，判断有没有读到这个手机
-                            sqldatareader3.Close();
-
-                            if (flag3 == false)
+                            SqlDataReader PhoneReader = IfPhone.ExecuteReader();
+                            bool PhoneExist = PhoneReader.Read();//上下三行，判断有没有读到这个手机
+                            PhoneReader.Close(); 
+                            if (PhoneExist == false)
                             {
-                                SqlDataReader sqldatareader4 = sqlcommand4.ExecuteReader();
-                                bool flag4 = sqldatareader4.Read();//上下三行，判断有没有读到这个手机
-                                sqldatareader4.Close();
-                                if (flag4 == false)
+                                SqlDataReader EmailReader = IfEmail.ExecuteReader();
+                                bool EmailExist = EmailReader.Read();//上下三行，判断有没有读到这邮箱
+                                EmailReader.Close();
+                                if (EmailExist == false)
                                 {
-                                    sqlcommand1.ExecuteNonQuery();
+                                    AddUser.ExecuteNonQuery();
                                     SessionSG.SetSession("Users", Username);//设置session对象Users的值
-                                    Response.Write("<script>alert('注册成功！已经为您自动登录');window.location.href='../Home/Index';</script>");//通过页面js的方法跳出弹窗，并跳转页面
-
+                                    Response.Write("<script>alert('注册成功！已经为您自动登录');" +
+                                        "window.location.href='../Home/Index';</script>");//通过页面js的方法跳出弹窗，并跳转页面
                                 }
                                 else
                                 {
@@ -167,10 +109,10 @@ namespace Realization.Controllers
                     }
                     finally
                     {
-                        sqlcommand1 = null;
-                        sqlcommand2 = null;
-                        sqlcommand3 = null;
-                        sqlcommand4 = null;
+                        AddUser = null;
+                        IfName = null;
+                        IfPhone = null;
+                        IfEmail = null;
                         conn.Close();
                         conn = null;
                     }
@@ -178,13 +120,12 @@ namespace Realization.Controllers
                 else
                 {
                     Response.Write("<script>alert('两次密码输入不一致!请重新输入')</script>");
-
                 }
             }
             return View();
         }
         /// <summary>
-        /// 功能-登录页 
+        /// 登录页---已完成 
         /// </summary>
         /// <returns></returns>
         public ActionResult Login(string Login_Btn_Click)
@@ -216,24 +157,21 @@ namespace Realization.Controllers
                         if (Userpwd.Equals(TempPwd))//成功登录
                         {
                             SessionSG.SetSession("Users", TempName);//设置session对象Users的值 为取到的用户名
-                            return RedirectToAction("Index");
+                            return RedirectToAction("Index");//登录成功后回主页
                         }
                         else
                         {
                             Response.Write("<script>alert('密码错误')</script>");
-                            return View();
                         }
                     }
                     else
                     {
                         Response.Write("<script>alert('你输入的账号不存在')</script>");
-                        return View();
                     }
                 }
                 catch (Exception ee)
                 {
-                    Response.Write(ee);
-                    return View();
+                    Response.Write(ee.Message);
                 }
                 finally
                 {
@@ -244,9 +182,8 @@ namespace Realization.Controllers
             }
             return View();
         }
-        /// <summary>
-        /// 功能-链接-注销
-        /// 注销后回到首页
+        /// <summary> 
+        /// 注销---已完成
         /// </summary>
         public ActionResult Logout()
         {
@@ -254,25 +191,17 @@ namespace Realization.Controllers
             return RedirectToAction("Index");
         }
         /// <summary>
-        /// 用户基本信息遍历，邮箱电话修改。和用户地址 遍历 修改 添加删除
+        /// 用户信息---已完成
         /// </summary>
         public ActionResult Imformation(string AddressCURD, string Alert_Phone, string Alert_Email)
         {
-            string UserName;
             try
             {
-                try
-                {
-                    string tryUserName = SessionSG.GetSession("Users").ToString();//一般就在这块儿报错了、 
-                }
-                catch (Exception ee) {
-                    Response.Write("<script>alert('亲，请登录后再进行操作');window.location.href='../Home/Login'</script>");
-                    Response.Write(ee.Message);
-                }
-                UserName = SessionSG.GetSession("Users").ToString();
+                string UserName = SessionSG.GetSession("Users").ToString();//一般就在这块儿报错了 
                 SqlConnection conn = Dbconn.getConnn();
                 //修改基本信息-手机
-                if (Alert_Phone == "修改") {
+                if (Alert_Phone == "修改")
+                {
                     string Phone = Request["Phone"];
                     //先查一下数据库原来的电话
                     SqlCommand GetPhoneBefore = new SqlCommand();
@@ -303,7 +232,8 @@ namespace Realization.Controllers
                             SqlDataReader sdrPhoneNow = GetPhoneNow.ExecuteReader();
                             bool flag = sdrPhoneNow.Read();
                             sdrPhoneNow.Close();
-                            if (flag == false) {
+                            if (flag == false)
+                            {
                                 AlertPhone.ExecuteNonQuery();
                                 Response.Write("<script>alert('请记好您修改后的手机号，将用作登录使用');</script>");
                             }
@@ -332,12 +262,12 @@ namespace Realization.Controllers
                     GetEmailBefore.Connection = conn;
                     GetEmailBefore.CommandText = @"select UserEmail from Users where UserName=@UserName";
                     GetEmailBefore.Parameters.AddWithValue("@UserName", UserName);//加参数的方法,用的是session中的UserName
-                    //再查一下现在的邮箱
+                                                                                  //再查一下现在的邮箱
                     SqlCommand GetEmailNow = new SqlCommand();
                     GetEmailNow.Connection = conn;
                     GetEmailNow.CommandText = @"select * from Users where UserEmail=@UserEmail";
                     GetEmailNow.Parameters.AddWithValue("@UserEmail", Email);//加参数的方法,获取到的页面上邮箱号
-                    //修改邮箱
+                                                                             //修改邮箱
                     SqlCommand AlertEmail = new SqlCommand();
                     AlertEmail.Connection = conn;
                     AlertEmail.CommandText = @"update Users set UserEmail=@UserEmail where UserName=@UserName";
@@ -415,17 +345,17 @@ namespace Realization.Controllers
                     string Name = Request["Name"];
                     string Phone = Request["Phone"];
                     string Address = Request["Address"];
-                    SqlCommand alertSqlcommand = new SqlCommand();//sql语句，连接对象和字符串  用于修改
-                    alertSqlcommand.Connection = conn;
-                    alertSqlcommand.CommandText = @"Update  Addresses set Name=@Name,Phone=@Phone,Address=@Address where Id=@Id";
-                    alertSqlcommand.Parameters.AddWithValue("@Name", Name);
-                    alertSqlcommand.Parameters.AddWithValue("@Phone", Phone);
-                    alertSqlcommand.Parameters.AddWithValue("@Address", Address);
-                    alertSqlcommand.Parameters.AddWithValue("@Id", Id);
+                    SqlCommand AlertAddress = new SqlCommand();//sql语句，连接对象和字符串  用于修改
+                    AlertAddress.Connection = conn;
+                    AlertAddress.CommandText = @"Update  Addresses set Name=@Name,Phone=@Phone,Address=@Address where Id=@Id";
+                    AlertAddress.Parameters.AddWithValue("@Name", Name);
+                    AlertAddress.Parameters.AddWithValue("@Phone", Phone);
+                    AlertAddress.Parameters.AddWithValue("@Address", Address);
+                    AlertAddress.Parameters.AddWithValue("@Id", Id);
                     try
                     {
                         conn.Open();
-                        alertSqlcommand.ExecuteNonQuery();
+                        AlertAddress.ExecuteNonQuery();
                     }
                     catch (Exception ee)
                     {
@@ -433,7 +363,7 @@ namespace Realization.Controllers
                     }
                     finally
                     {
-                        alertSqlcommand = null;
+                        AlertAddress = null;
                         conn.Close();//关闭数据库
                         conn = null;
                         Response.Write("<script>window.location.href='../Home/Imformation'</script>");
@@ -449,14 +379,31 @@ namespace Realization.Controllers
                         deleteSqlcommand.Connection = conn;
                         deleteSqlcommand.CommandText = @"Delete from Addresses where Id=@Id";
                         deleteSqlcommand.Parameters.AddWithValue("@Id", Id);
+                        //判断数据是否存在
+                        SqlCommand IfId = new SqlCommand();
+                        IfId.Connection = conn;
+                        IfId.CommandText = @"select * from Addresses where id=@id";
+                        IfId.Parameters.AddWithValue("@id", Id);
                         try
                         {
                             conn.Open();
-                            deleteSqlcommand.ExecuteNonQuery();
+                            SqlDataReader IdReader = IfId.ExecuteReader();
+                            bool ExistId = IdReader.Read();//上下三行，判断有没有读到这个用户名
+                            IdReader.Close();
+                            if (ExistId == false)
+                            {
+                                Response.Write("<script>alert('不存在这条记录');</script>");
+                            }
+                            else
+                            {
+                                deleteSqlcommand.ExecuteNonQuery(); 
+                                Response.Write("<script>alert('删除成功');</script>");
+                            }
+                            
                         }
-                        catch (Exception deleteError)
+                        catch (Exception ee)
                         {
-                            Response.Write(deleteError.Message);
+                            Response.Write(ee.Message);
                         }
                         finally
                         {
@@ -485,7 +432,7 @@ namespace Realization.Controllers
                 try
                 {
                     conn.Open();//打开数据库
-                    //读取基本信息
+                                //读取基本信息
                     SqlDataReader sdrBaseInfo = sqlBaseInfo.ExecuteReader();
                     var UserItem = new List<Users> { };
                     while (sdrBaseInfo.Read())
@@ -533,64 +480,71 @@ namespace Realization.Controllers
                 }
                 //从页面获取收件人信息，插入数据库
 
-
-            }
-            catch (Exception ee)
-            {
-                Response.Write(ee.Message);
-            }
-
-            return View();
-        }
-        /// <summary>
-        /// 密码修改
-        /// </summary>
-        public ActionResult AlertUserPwd(string AlertPwd) {
-            string UserName;
-            try
-            {
-                string tryUserName = SessionSG.GetSession("Users").ToString();//一般就在这块儿报错了、 
             }
             catch (Exception ee)
             {
                 Response.Write("<script>alert('亲，请登录后再进行操作');window.location.href='../Home/Login'</script>");
                 Response.Write(ee.Message);
             }
-            UserName = SessionSG.GetSession("Users").ToString();
-            SqlConnection conn = Dbconn.getConnn();
+            return View();
+        }
+        /// <summary>
+        /// 密码修改---已完成
+        /// </summary>
+        public ActionResult AlertUserPwd(string AlertPwd)
+        {
+            try
+            {
+                string UserName = SessionSG.GetSession("Users").ToString();//一般就在这块儿报错了、 
+                SqlConnection conn = Dbconn.getConnn();
+                if (AlertPwd == "确认修改")
+                {
+                    string NewPwd = Request["NewPwd"];
+                    string ConfirmPwd = Request["ConfirmPwd"];
+                    if (NewPwd.Equals(ConfirmPwd))
+                    {
+                        NewPwd = Models.Utils.HashUtil.GetSha256FromString(NewPwd);
+                        SqlCommand SetNewPwd = new SqlCommand();
+                        SetNewPwd.Connection = conn;
+                        SetNewPwd.CommandText = @"update Users set UserPassword=@NewPwd where UserName=@UserName";
+                        SetNewPwd.Parameters.AddWithValue("@NewPwd", NewPwd);
+                        SetNewPwd.Parameters.AddWithValue("@UserName", UserName);//加参数的方法,用的是session中的UserName
+                        try
+                        {
+                            conn.Open();
+                            SetNewPwd.ExecuteNonQuery();
+                            SessionSG.RemoveSession("Users");
+                            Response.Write("<script>alert('修改密码成功，请重新登录');window.location.href='../Home'</script>");
+                        }
+                        catch (Exception ee)
+                        {
+                            Response.Write(ee.Message);
+                        }
+                        finally
+                        {
+                            SetNewPwd = null;
+                            conn.Close();
+                            conn = null;
 
-            if (AlertPwd == "确认修改") {
-                string NewPwd = Request["NewPwd"];
-                string ConfirmPwd = Request["ConfirmPwd"];
-                if (NewPwd.Equals(ConfirmPwd)) {
-                    NewPwd = Models.Utils.HashUtil.GetSha256FromString(NewPwd);
-                    SqlCommand SetNewPwd = new SqlCommand();
-                    SetNewPwd.Connection = conn;
-                    SetNewPwd.CommandText = @"update Users set UserPassword=@NewPwd where UserName=@UserName";
-                    SetNewPwd.Parameters.AddWithValue("@NewPwd", NewPwd);
-                    SetNewPwd.Parameters.AddWithValue("@UserName", UserName);//加参数的方法,用的是session中的UserName
-                    try {
-                        conn.Open();
-                        SetNewPwd.ExecuteNonQuery();
-                        SessionSG.RemoveSession("Users");
-                        Response.Write("<script>alert('修改密码成功，请重新登录');window.location.href='../Home'</script>");
-                    } catch (Exception ee) {
-                        Response.Write(ee.Message);
-                    } finally {
-                        SetNewPwd = null;
-                        conn.Close();
-                        conn = null;
-
+                        }
                     }
+                    else { Response.Write("<script>alert(两次输入的密码不一致，请重新输入)</script>"); }
                 }
-                else { Response.Write("<script>alert(两次输入的密码不一致，请重新输入)</script>"); }
             }
+            catch (Exception ee)
+            {
+                Response.Write("<script>alert('亲，请登录后再进行操作');window.location.href='../Home/Login'</script>");
+                
+            }
+            
+           
             return View();
         }
         /// <summary>
         /// 购物车 点购买下单，先判断库存，足够则存到订单中
         /// </summary>
-        public ActionResult Carts(){
+        public ActionResult Carts()
+        {
             return View();
         }
         /// <summary>
@@ -613,10 +567,10 @@ namespace Realization.Controllers
         /// <summary>
         /// 留言板  看全体和个人  传过去两个数组得了，用js显示不同的
         /// </summary>
-        public ActionResult Messages() {
+        public ActionResult Messages()
+        {
             return View();
         }
-
         /// <summary>
         /// 库存给用户看，有多少东西
         ///在支付前获取，判断库存是否小于购买量。而不是直接显示。
@@ -625,5 +579,52 @@ namespace Realization.Controllers
         {
             return View();
         }
+        /// <summary>
+        /// 页面-主页
+        /// 浏览商品信息
+        /// </summary>
+        public ActionResult Index()
+        {
+            SqlConnection conn = Dbconn.getConnn();
+            SqlCommand sqlcommand = new SqlCommand();//(sql语句，连接对象和字符串)
+            sqlcommand.Connection = conn;
+            sqlcommand.CommandText = "select * from Products";
+            try
+            {
+                conn.Open();//打开数据库
+                SqlDataReader sdr = sqlcommand.ExecuteReader();
+                var products = new List<Products> { };
+                while (sdr.Read())
+                {
+                    products.Add(new Products
+                    {
+                        ProductId = sdr.GetInt32(0),
+                        ProductType = sdr.GetString(1),
+                        ProductBrand = sdr.GetString(2),
+                        ProductName = sdr.GetString(3),
+                        ProductPriceIn = sdr.GetDouble(4),
+                        ProductPriceOut = sdr.GetDouble(5),
+                        ProductModel = sdr.GetString(6),
+                        ProductDetail = sdr.GetString(7),
+                        ProductPath = sdr.GetString(8)
+                    });
+                }
+                sdr.Close();
+                ViewBag.ProductList = Newtonsoft.Json.JsonConvert.SerializeObject(products);
+            }
+            catch (Exception ee)
+            {
+                Response.Write(ee);
+                return View();
+            }
+            finally
+            {
+                sqlcommand = null;
+                conn.Close();//关闭数据库
+                conn = null;
+            }
+            return View();
+        }
+
     }
 }

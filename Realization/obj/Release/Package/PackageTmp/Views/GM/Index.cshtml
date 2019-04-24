@@ -4,44 +4,95 @@
     Layout = "~/Views/Shared/GM_Layout.cshtml";
 }
 
-<h2>所有类型商品列表</h2>
-<div id="xyz-ProductList">
-    <div class="xyz-productitem" v-for="(productitem,productIndex) in productlist" v-bind:key="productIndex">
-        <!-- 这里要改的  -->
-        <form action="/GM/Index" method="post">
-            <div class="xyz-item-row">{{productitem.ProductId}}</div>
-            <div class="xyz-item-row">{{productitem.ProductType}}</div>
-            <div class="xyz-item-row">{{productitem.ProductBrand}}</div>
-            <div class="xyz-item-row">{{productitem.ProductName}}</div>
-            <div class="xyz-item-row">{{productitem.ProductPriceIn}}</div>
-            <div class="xyz-item-row">{{productitem.ProductPriceOut}}</div>
-            <div class="xyz-item-row">{{productitem.ProductModel}}</div>
-            <div class="xyz-item-row">{{productitem.ProductDetail}}</div>
-            <div class="xyz-item-row">{{productitem.ProductPath}}</div>
-            <input type="submit" v-bind:name="productitem.ProductId" v-bind:value="productitem.ProductType">
-        </form>
-    </div>
+<h2>欢迎:@Session["GMUsers"],您的权限是:@Session["GMPower"],您可以进行以下内容管理</h2>
+<div class="xyz-gmindexbody" id="xyzGMIndexBody">
+    <a href="../GM/GMList" v-if="SuperGM">
+        <div class="xyz-gmib-function">
+            管理员信息管理
+        </div>
+    </a>
+    <a href="../GM/ProductList" v-if="ProductGM">
+        <div class="xyz-gmib-function">
+            商品信息管理
+        </div>
+    </a>
+    <a href="../GM/StockList" v-if="StockGM">
+        <div class="xyz-gmib-function">
+            库存信息管理
+        </div>
+    </a>
+    <a href="../GM/SoldList " v-if="SuperGM">
+        <div class="xyz-gmib-function">
+            销售信息管理
+        </div>
+    </a>
+    <a href="../GM/UserMessages" v-if="SuperGM">
+        <div class="xyz-gmib-function">
+            客户信息管理
+        </div>
+    </a>
+    <a href="../GM/UserReasons" v-if="SuperGM">
+        <div class="xyz-gmib-function">
+            售后信息管理
+        </div>
+    </a>
 </div>
 <script>
-    window.onload = function () {
-        var productlist = typeof @Html.Raw(ViewBag.ProductList) == 'string' ? JSON.parse(@Html.Raw(ViewBag.ProductList)) :@Html.Raw(ViewBag.ProductList);
-        //是string就转化成对象，不是string就直接用。
-        console.log(productlist);
-        var xyzProductList = new Vue({
-            el: '#xyz-ProductList',
-            components: {},
-            data() {
-                return {
-                    productlist: productlist,
-                };
-            },
-            methods: {
-            },
+    function HomeB() {
+        var GMusers = "@Session["GMUsers"]";
+        var GMPower = "@Session["GMPower"]";
+        var SuperGM = false;
+        var ProductGM = false;
+        var StockGM = false;
+        if (GMusers == "" || GMusers == null) {
+            alert("请登录");
+            window.location.href = "../GM/GMLogin";
+        } else {
+        if (GMPower == "超级管理员") {
+            SuperGM = true;
+            ProductGM = true;
+            StockGM = true;
+        } else if (GMPower == "商品管理员") {
+            SuperGM = false;
+            ProductGM = true;
+            StockGM = false;
+        } else if (GMPower == "仓库管理员") {
+            SuperGM = false;
+            ProductGM = false;
+            StockGM = true;
+        }
+        }
+        var xyzGMIndexBody = new Vue({
+            el: '#xyzGMIndexBody',		//我认为是个选择器。
+            data() {			//里边放参数，下边对参数进行赋值
+                return { SuperGM: SuperGM, ProductGM: ProductGM, StockGM: StockGM}      //如果false不显示
+            }
         });
     }
 </script>
-<style>
-    .xyz-productitem form {
+<style scoped>
+    .xyz-gmindexbody {
+        width: 100%;
         display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .xyz-gmib-function {
+        min-width: 300px;
+        width: 30%;
+        height: 80px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: solid 1px rgba(222,222,222,0.3);
+        border-radius: 10px;
+        background-color: rgb(233,233,233);
+    }
+
+    .xyz-gmindexbody a {
+        margin-top: 30px;
+        color: black;
+        text-decoration: none;
     }
 </style>

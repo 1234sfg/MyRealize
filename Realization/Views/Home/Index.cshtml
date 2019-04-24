@@ -3,11 +3,12 @@
     //Layout = null;
 }
 @Styles.Render("~/Content/index")
+<h2>欢迎光临立荣电器</h2>
 <div id="xyzIndexBody" class="xyz-indexbody xyz-body">
     <div class="xyz-ib-banner">
         <div class="swiper-container">
             <div class="swiper-wrapper">
-                <div class="swiper-slide" v-for="(item,index) in products" v-bind:key="index"><img v-bind:src="item.ProductPath" ></div>
+                <div class="swiper-slide" v-for="(item,index) in products" v-bind:key="index"><img v-bind:src="item.ProductPath"></div>
             </div>
             <div class="swiper-pagination"></div>
             <div class="swiper-button-prev swiper-button">
@@ -41,3 +42,6 @@
         });
     }
 </script>
+
+<style scoped>
+</style>

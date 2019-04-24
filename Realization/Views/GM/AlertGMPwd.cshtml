@@ -1,12 +1,12 @@
 ﻿
 @{
-    ViewBag.Title = "AlertUserPwd";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "AlertGMPwd";
+    Layout = "~/Views/Shared/GM_Layout.cshtml";
 }
 
-<h2>AlertUserPwd</h2>
+<h2>AlertGMPwd</h2>
 
-<form action="/Home/AlertUserPwd" method="post" onsubmit="return submit_sure()">
+<form action="/GM/AlertGMPwd" method="post" onsubmit="return submit_sure()">
     新密码：<input type="text" name="NewPwd" required />
     确认密码：<input type="text" name="ConfirmPwd" required />
     <input type="submit" value="确认修改" name="AlertPwd" />

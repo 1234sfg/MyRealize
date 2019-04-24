@@ -3,6 +3,35 @@
     ViewBag.Title = "GMLogin";
     Layout = "~/Views/Shared/GM_Layout.cshtml";
 }
-
-<h2>GMLogin</h2>
-
+<h2>管理员登录</h2>
+<form action="/GM/GMLogin" method="post">
+    <div class="login">
+        <div class="line">
+            <div class="line_left">
+                <label>管理员名</label>
+            </div>
+            <div class="line_right">
+                <input type="text" name="GMName" />
+            </div>
+        </div>
+        <br />
+        <div class="line">
+            <div class="line_left">
+                <label>管理员密码</label>
+            </div>
+            <div class="line_right">
+                <input type="password" name="GMPassword" />
+            </div>
+        </div>
+        <br />
+        <div class="line">
+            <input type="submit" value="登录" name="GMLogin" />
+        </div>
+    </div>
+</form>
+<script>
+    function HomeB() { }
+</script>
+<style scoped>
+    
+</style>
