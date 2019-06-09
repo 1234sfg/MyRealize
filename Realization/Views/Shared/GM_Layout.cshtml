@@ -83,7 +83,7 @@
                     <li>@Html.ActionLink("登录", "GMLogin", "GM")</li>
                 </ul>
                 <ul v-else class="nav navbar-nav navbar-right">
-                    <li><a href="../GM/AlertGMPwd">你好，@Session["GMPower"]：@Session["GMUsers"]</a></li>
+                    <li><a href="../GM/AlertGMPwd" title="点击修改密码">你好，@Session["GMPower"]：@Session["GMUsers"]</a></li>
                     <li>@Html.ActionLink("注销", "GMLogout", "GM")</li>
                 </ul>
             </div>
