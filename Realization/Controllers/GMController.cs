@@ -764,7 +764,7 @@ namespace Realization.Controllers
                         }
                     }
                     if (StockCRUD == "下架")
-                    {
+                    { 
                         int temp = 0;
                         int ProductId = int.Parse(Request["ProductId"]);
                         int ProductAmount = int.Parse(Request["ProductAmount"]);
@@ -839,6 +839,7 @@ namespace Realization.Controllers
             {
                 Response.Write("<script>alert('亲,请登录');window.location.href='../GM/GMLogin';</script>");
                 Response.Write(ee.Message);
+
             }
             return View();
         }
@@ -1312,7 +1313,7 @@ namespace Realization.Controllers
         /// <summary>
         /// 客户留言---已完成
         /// </summary>
-        public ActionResult UserMessages()
+        public ActionResult UserMessages(string MessageCURD)
         {
             try
             {
@@ -1326,6 +1327,31 @@ namespace Realization.Controllers
                     SqlCommand SelMessages = new SqlCommand();//(sql语句，连接对象和字符串)
                     SelMessages.Connection = conn;
                     SelMessages.CommandText = @"select * from Messages";
+                    if (MessageCURD == "删除")
+                    {
+                        int Id = int.Parse(Request["MessageId"]);
+                        SqlCommand DelMessages = new SqlCommand();//sql语句，连接对象和字符串  1用于注册，插入数据
+                        DelMessages.Connection = conn;
+                        DelMessages.CommandText = @"Delete from Messages where Id=@Id";
+                        DelMessages.Parameters.AddWithValue("@Id", Id);
+                        try
+                        {
+                            conn.Open();
+                            DelMessages.ExecuteNonQuery();
+                            Response.Write("<script>alert('删除成功！');window.location.href='../GM/UserMessages';</script>");
+
+                        }
+                        catch (Exception ee)
+                        {
+                            Response.Write(ee.Message);
+                        }
+                        finally
+                        {
+                            DelMessages = null;
+                            conn.Close();//关闭数据库
+                            conn = null;
+                        }
+                    }
                     try
                     {
                         conn.Open();//打开数据库  

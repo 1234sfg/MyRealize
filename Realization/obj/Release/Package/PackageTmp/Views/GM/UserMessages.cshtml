@@ -20,7 +20,7 @@
         </div>
     </div>
     <div class="xyz_messagebody" v-for="(item,addressIndex) in MessageList" v-bind:key="addressIndex">
-        <form action="/Home/Messages" method="post" onsubmit="return submit_sure()" name="MessageListForm">
+        <form action="/GM/UserMessages" method="post" onsubmit="return submit_sure()" name="MessageListForm">
             <div class="xyz_mesid">
                 <input type="hidden" name="MessageId" v-bind:value="item.Id" />
                 {{item.Id}}
@@ -66,6 +66,11 @@
     }
     .xyz_messagebody form {
         display: flex;  
+        height:auto;
+    }
+    .xyz_messagebody {
+        height: auto;
+        margin-bottom: 5px;
     }
     #xyzMessages {
         min-height: 400px;

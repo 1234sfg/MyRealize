@@ -22,7 +22,7 @@
         <div class="xyz_productitem" v-for="(item,productIndex) in productlist" v-bind:key="productIndex">
             <form action="/GM/ProductList" method="post" onsubmit="return submit_sure()">
                 <input type="hidden" name="ProductId" v-bind:value="item.ProductId"/>
-                <div class="xyz_id"><a v-bind:href="'../Home/ProductList?ProductId='+item.ProductId">{{item.ProductId}}</a></div>
+                <div class="xyz_id"><a v-bind:href="'../Home/ProductList?ProductId='+item.ProductId" target="_blank">{{item.ProductId}}</a></div>
                 <div class="xyz_type">{{item.ProductType}}</div>
                 <div class="xyz_brand">{{item.ProductBrand}}</div>
                 <div class="xyz_name">{{item.ProductName}}</div>

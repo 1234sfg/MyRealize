@@ -15,9 +15,10 @@
         <div class="xyz_stockitem" v-for="(item,stockIndex) in StocksList" v-bind:key="stockIndex">
             <form class="xyz_formbody" action="/GM/StockList" method="post" onsubmit="return submit_sure()">
                 <input type="hidden" name="ProductId" v-bind:value="item.ProductId" readonly />
+                <input type="hidden" name="ProductAmount" v-bind:value="item.ProductAmount" readonly />
                 <div class="xyz_model"><a v-bind:href="'../Home/ProductList?ProductId='+item.ProductId" target="_blank">{{item.ProductModel}}</a></div>
                 <div class="xyz_amount">{{item.ProductAmount}}</div>
-                <div class="xyz_alertamount"><input type="number" name="AlertAmount" min="0" placeholder="请输入进货数量" required /></div>
+                <div class="xyz_alertamount"><input type="number" name="AlertAmount" min="0" placeholder="请输入进货数量" value="0" required /></div>
                 <div class="xyz_crud">
                     <input type="submit" name="StockCRUD" class="xyz_input_submit" value="进货">
                     <input type="submit" name="StockCRUD" class="xyz_input_submit" value="下架">

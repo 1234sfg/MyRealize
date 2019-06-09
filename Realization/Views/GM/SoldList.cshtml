@@ -30,10 +30,13 @@
             <div class="xyz_date">{{item.OrderTime}}</div>
             <div class="xyz_status">{{item.OrderStatus}}</div>
             <div class="xyz_address">{{item.ShopTo}}</div>
+
         </form>
     </div>
-    <hr>
+    <div v-if="OrderItems.length = 0">暂无记录</div>
 </div>
+<hr>
+
 <div id="xyzTheYearSold">
     <h3 id="xyzTheYear">本年至今产品销售排行</h3>
     <div class="xyz_theyear" v-for="(tyitem,TheYearIndex) in TheYearSold" v-bind:key="TheYearIndex">
@@ -41,10 +44,12 @@
             <input type="hidden" name="ProductId" v-bind:value="tyitem.ProductId" readonly="readonly" />
             <div class="xyz-theyear-row">产品名：<input type="text" name="ProductName" v-bind:value="tyitem.ProductName" readonly="readonly" /></div>
             <div>销售量：<input type="text" name="AllQuantity" v-bind:value="tyitem.AllQuantity" readonly="readonly" /></div>
+
         </form>
     </div>
-    <hr>
-</div>
+    <div v-if="TheYearSold.length<1">暂无记录</div>
+</div> 
+<hr>
 <div id="xyzLastMonthSold">
     <h3>上个月销售统计</h3>
     <div class="xyz_lastmonth" v-for="(lmitem,LastMonthIndex) in LastMonthSold" v-bind:key="LastMonthIndex">
@@ -52,10 +57,13 @@
             <input type="hidden" name="ProductId" v-bind:value="lmitem.ProductId" readonly="readonly" />
             <div>产品名：<input type="text" name="ProductName" v-bind:value="lmitem.ProductName" readonly="readonly" /></div>
             <div>销售量：<input type="text" name="AllQuantity" v-bind:value="lmitem.AllQuantity" readonly="readonly" /></div>
+
         </form>
     </div>
-    <hr>
+    <div v-if="LastMonthSold.length<1">暂无记录</div>
 </div>
+
+<hr>
 <div id="xyzLastYearSold">
     <h3>去年销售统计</h3>
     <div class="xyz_lastyear" v-for="(lyitem,LastYearIndex) in LastYearSold" v-bind:key="LastYearIndex">
@@ -63,8 +71,10 @@
             <input type="hidden" name="ProductId" v-bind:value="lyitem.ProductId" readonly="readonly" />
             <div>产品名：<input type="text" name="ProductName" v-bind:value="lyitem.ProductName" readonly="readonly" /></div>
             <div>销售量：<input type="text" name="AllQuantity" v-bind:value="lyitem.AllQuantity" readonly="readonly" /></div>
+
         </form>
     </div>
+    <div v-if="LastYearSold.length<1">暂无记录</div>
 </div>
 
 <div class="xyz-left-nav">
@@ -169,12 +179,12 @@
                 color: black;
             }
 
-    .xyz_theyear form, .xyz_lastmonth form, .xyz_lastyear form{
+    .xyz_theyear form, .xyz_lastmonth form, .xyz_lastyear form {
         display: flex;
         border-bottom: 1px solid black;
     }
 
-        .xyz_theyear form input, .xyz_lastmonth form input, .xyz_lastyear form input{
+        .xyz_theyear form input, .xyz_lastmonth form input, .xyz_lastyear form input {
             border: none;
         }
 
