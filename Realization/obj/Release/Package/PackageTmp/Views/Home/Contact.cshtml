@@ -1,17 +1,59 @@
 ﻿@{
     ViewBag.Title = "联系方式";
 }
-<h2>@ViewBag.Title.</h2>
+<h2>@ViewBag.Title</h2>
 
-<address>
-    电话：0571-82200127<br />
-    手机：15957155727<br />
-    地址:浙江省杭州市萧山区河上镇大溪路77号(农行旁20米)<br />
-
-</address>
+<div class="xyz_address">
+    <div class="xyz_line">
+        <div class="xyz_line_left">
+            电话：
+        </div>
+        <div class="xyz_line_right">
+            0571-82200127<br />
+        </div>
+    </div><div class="xyz_line">
+        <div class="xyz_line_left">
+            手机：
+        </div>
+        <div class="xyz_line_right">
+            15957155727<br />
+        </div>
+    </div><div class="xyz_line">
+        <div class="xyz_line_left">
+            地址:
+        </div>
+        <div class="xyz_line_right">
+            浙江省杭州市萧山区河上镇大溪路77号(农行旁20米)<br />
+        </div>
+    </div> 
+</div>
 
 <script>
     function HomeB() { }
 </script>
 <style scoped>
+    .xyz_address{
+        min-height:400px;
+    }
+    .xyz_line_left {
+        width: 85px;
+        font-family: "宋体";
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+        text-align: justify;
+        font-weight: bold;
+    }
+
+    .xyz_line_right {
+    }
+
+        .xyz_line_right input {
+            outline: none;
+        }
+
+    .xyz_line {
+        display: flex;
+        margin-top:20px;
+    }
 </style>

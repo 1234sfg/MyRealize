@@ -1,13 +1,97 @@
 ﻿
 @{
-    ViewBag.Title = "Messages";
+    ViewBag.Title = "留言板";
     Layout = "~/Views/Shared/_Layout.cshtml";
-}
+} 
+<div id="xyzMessages" class="xyz-messages">
+    <h3>所有留言</h3>
+    <div class="xyz_message" v-for="(item,addressIndex) in MessageList" v-bind:key="addressIndex">
+        <form action="/Home/Messages" method="post" onsubmit="return submit_sure()" name="MessageListForm">
+            <input type="hidden" name="MessageId" v-bind:value="item.Id" />
+            <input type="hidden" name="UserName" v-bind:value="item.UserName" /> 
+            <div class="xyz_content">
+                <div class="xyz_line"><div class="xyz_line_left">留言人：</div><div class="xyz_line_right xyz_mesName">{{item.UserName}}</div></div>
+                <div class="xyz_line"><div class="xyz_line_left">留言内容：</div><div class="xyz_line_right">{{item.Message}}</div></div>
+            </div>
+            <div class="xyz_line "><input class="xyz_input_submit" v-if="item.UserName=='@Session["Users"]'" type="submit" value="删除" name="MessageCURD" />
+</div>
+</form>
+    </div> 
+    <!--添加留言-->
+    <div>
+        <h3>添加留言</h3>
+        <form action="/Home/Messages" method="post" name="MessageAddform">
+            <div><textarea name="Message" required class="xyz_messagearea"></textarea> </div>
+            <input type="submit" class="xyz_input_submit" value="留言" name="MessageCURD" />
+        </form>
+    </div>
 
-<h2>Messages</h2>
-
+</div>
 <script>
-    function HomeB() { }
+        function HomeB() {
+            var MessageList = typeof @Html.Raw(ViewBag.MessageList) == 'string' ? JSON.parse(@Html.Raw(ViewBag.MessageList)) :@Html.Raw(ViewBag.MessageList);
+            console.log(MessageList[0].UserName);
+            console.log("@Session["Users"]");
+            
+            var xyzMessages = new Vue({
+                el: '#xyzMessages',
+                components: {},
+                data() {
+                    return {
+                        MessageList: MessageList, 
+                    };
+                },
+                methods: {
+                },
+            });
+
+    } function submit_sure() {
+        var cf = confirm("确定要进行这个操作吗?");
+        if (cf == true) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 </script>
-<style scoped>
-</style>
+    <style scoped>
+        .xyz_message{border-bottom:1px solid black;}
+            .xyz_message form{
+                display:flex;
+                justify-content:space-between;
+                align-items:center;
+            }
+            .xyz_input_submit {
+                width: 100px;
+                height: 30px;
+                margin: 0px;
+                text-decoration: none;
+                font: bold 16px 'Trebuchet MS',Arial, Helvetica;
+                display: inline-block;
+                text-align: center;
+                color: #fff;
+                border: 1px solid rgba(0, 0, 0, 0.3);
+                text-shadow: 0 1px 0 rgba(0,0,0,0.4);
+                box-shadow: 0 0 0.05em rgba(0,0,0,0.4);
+                -moz-box-shadow: 0 0 .05em rgba(0,0,0,0.4);
+                -webkit-box-shadow: 0 0 0.05em rgba(0,0,0,0.4);
+                border-radius: .3em;
+                background: -webkit-gradient(linear, left top, left bottom, from(#656565), to(#141414) );
+            }
+   .xyz_line_left{
+       font-size:14px;
+       font-weight:bold;
+       font-family:"宋体";
+       color:brown;
+   }
+   .xyz_line{
+       display:flex;
+   }
+        .xyz_mesName{
+            font-weight:bold;
+        }
+        .xyz_messagearea{
+            min-width:300px;
+            min-height:100px;
+        }
+    </style>

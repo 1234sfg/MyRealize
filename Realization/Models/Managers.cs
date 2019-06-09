@@ -12,5 +12,6 @@ namespace Realization.Models
         public string Password { set; get; }
         public string Power { set; get; }
         public string Phone { set; get; }
+        public int Identifier { set; get; }
     }
 }

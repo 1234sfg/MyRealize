@@ -1,13 +1,123 @@
 ﻿
 @{
-    ViewBag.Title = "ReasonList";
+    ViewBag.Title = "退货原因";
     Layout = "~/Views/Shared/GM_Layout.cshtml";
 }
-
-<h2>ReasonList</h2>
-
+ 
+<div id="xyzReasons" class="xyz-reasons">
+    <h3>被取消的订单</h3>
+    <hr />
+    <div class="xyz_dordertitle">
+        <div class="xyz_username">用户名</div>
+        <div class="xyz_proname">产品名</div>
+        <div class="xyz_quantity">数量</div>
+        <div class="xyz_dreason">取消原因</div> 
+        <div class="xyz_status">状态</div>
+        <div class="xyz_crud">操作</div>
+    </div>
+    <div class="xyz_dorderbody" v-for="(item,ReasonIndex) in ReasonList" v-bind:key="ReasonIndex">
+        <form action="/GM/ReasonList" method="post" onsubmit="return submit_sure()" name="ReasonItemsForm"> 
+            <input type="hidden" name="OrderId" v-bind:value="item.OrderId" />  
+            <div class="xyz_username"><a v-bind:href="'../GM/UserList?UserName='+item.UserName" target="_blank">{{item.UserName}}</a></div>
+            <div class="xyz_proname"><a v-bind:href="'../Home/ProductList?ProductId='+item.ProductId" target="_blank">{{item.ProductName}}</a></div>
+            <div class="xyz_quantity">{{item.Quantity}}</div>
+            <div class="xyz_dreason">{{item.Reason}}</div>
+            <div class="xyz_status">{{item.Status}}</div>
+            <div class="xyz_crud">
+                <input v-if="item.Status=='待处理'" type="submit" class="xyz_input_submit" value="已阅" name="ReasonCURD" />
+                <div v-else>已处理</div>
+            </div>
+</form>
+    </div>
+    <hr />
+</div>
 <script>
-    function HomeB() { }
+    function HomeB() {
+        var ReasonList = typeof @Html.Raw(ViewBag.ReasonList) == 'string' ? JSON.parse(@Html.Raw(ViewBag.ReasonList)) :@Html.Raw(ViewBag.ReasonList);
+             //MyCartItems
+        var xyzReasons = new Vue({
+            el: '#xyzReasons',
+                components: {},
+                data() {
+                    return {
+                        ReasonList: ReasonList,
+                    };
+                },
+                methods: {
+                },
+            });
+    } function submit_sure() {
+        var cf = confirm("确定要进行这个操作吗?");
+        if (cf == true) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 </script>
 <style scoped>
+    .xyz_dordertitle {
+        display: flex;
+        font-size: 20px;
+        font-weight: bold;
+        width: 100%;
+        border-bottom: 1px solid black;
+    }
+    .xyz_dorderbody form{
+        display:flex;
+        min-height:50px;
+    }
+    .xyz_username {
+        width: 80px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .xyz_proname {
+        width: 100px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .xyz_quantity {
+        width: 98px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .xyz_dreason {
+        width: 200px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .xyz_status {
+        width: 100px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .xyz_crud {
+        width: 150px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .xyz_input_submit {
+        width: 90px;
+        height: 27px;
+        margin: 0px;
+        text-decoration: none;
+        font: bold 16px 'Trebuchet MS',Arial, Helvetica;
+        display: inline-block;
+        text-align: center;
+        color: #fff;
+        border: 1px solid rgba(0, 0, 0, 0.3);
+        text-shadow: 0 1px 0 rgba(0,0,0,0.4);
+        box-shadow: 0 0 0.05em rgba(0,0,0,0.4);
+        -moz-box-shadow: 0 0 .05em rgba(0,0,0,0.4);
+        -webkit-box-shadow: 0 0 0.05em rgba(0,0,0,0.4);
+        border-radius: .3em;
+        background: -webkit-gradient(linear, left top, left bottom, from(#656565), to(#141414) );
+    }
 </style>

@@ -5,7 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title 立荣电器商店</title>
+    <title>@ViewBag.Title</title>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/modernizr")
@@ -34,6 +34,17 @@
         .body-contents {
             margin-top: 50px;
         }
+        .xyz_leftnav {
+            position: fixed;
+            left: 10px;
+            top: 15%;
+            width:20px;
+            border:1px solid rgba(33, 33, 33,0.3);
+        }
+            .xyz_leftnav a {
+                width: 20px;
+                color: black;
+            }
     </style>
 </head>
 <body>
@@ -53,6 +64,10 @@
                     <li>@Html.ActionLink("主页", "Index", "Home")</li>
                     <li>@Html.ActionLink("关于", "About", "Home")</li>
                     <li>@Html.ActionLink("联系方式", "Contact", "Home")</li>
+                    <li>@Html.ActionLink("我的购物车", "Carts", "Home")</li>
+                    <li>@Html.ActionLink("我的订单", "MyOrders", "Home")</li> 
+                    <li>@Html.ActionLink("留言", "Messages", "Home")</li> 
+                    
                     <!-- (中文，链接，链接的文件夹)-->
                 </ul>
                 <ul v-if="login" class="nav navbar-nav navbar-right">
@@ -65,9 +80,8 @@
                 </ul>
             </div>
         </div>
-    </div>
-
-    <div class="container body-contents">
+    </div> 
+    <div class="container body-contents" >
         @RenderBody()
         <hr />
         <footer>
@@ -77,35 +91,40 @@
                     <p>
                         在这里可以找电视机
                     </p>
-                    <p><a class="btn btn-default" href="#">暂无介绍 &raquo;</a></p>
+                    <p><a class="btn btn-default" href="../Home/ListProduct?ProductType=电视机">更多 &raquo;</a></p>
                 </div>
                 <div class="col-md-4">
                     <h2>冰箱类</h2>
                     <p>在这里可以找冰箱</p>
-                    <p><a class="btn btn-default" href="#">暂无介绍 &raquo;</a></p>
+                    <p><a class="btn btn-default" href="../Home/ListProduct?ProductType=冰箱">更多 &raquo;</a></p>
                 </div>
                 <div class="col-md-4">
                     <h2>空调类</h2>
                     <p>在这里可以找空调</p>
-                    <p><a class="btn btn-default" href="#">暂无介绍 &raquo;</a></p>
+                    <p><a class="btn btn-default" href="../Home/ListProduct?ProductType=空调">更多 &raquo;</a></p>
 
                 </div>
                 <div class="col-md-4">
                     <h2>洗衣机类</h2>
                     <p>在这里可以找洗衣机</p>
-                    <p><a class="btn btn-default" href="#">暂无介绍 &raquo;</a></p>
+                    <p><a class="btn btn-default" href="../Home/ListProduct?ProductType=洗衣机">暂无介绍 &raquo;</a></p>
                 </div>
                 <div class="col-md-4">
                     <h2>其他电器类</h2>
                     <p>在这里可以找其他电器</p>
-                    <p><a class="btn btn-default" href="#">暂无介绍 &raquo;</a></p>
+                    <p><a class="btn btn-default" href="../Home/ListProduct?ProductType=其他">暂无介绍 &raquo;</a></p>
                 </div>
 
             </div>
             <p>&copy; @DateTime.Now.Year 立荣电器商店</p>
         </footer>
     </div>
-    
+    <a href="#xyz_classforbuy">
+        <div class="xyz_leftnav">
+            分类挑选商品 
+        </div>
+    </a>   
     @RenderSection("scripts", required: false)
+    <div id="xyz_classforbuy"></div>
 </body>
 </html>

@@ -1,0 +1,88 @@
+﻿
+@{
+    ViewBag.Title = "用户基本信息";
+    Layout = "~/Views/Shared/GM_Layout.cshtml";
+}
+
+<h2>用户信息</h2>
+
+<div id="xyzInformation"> 
+    <div class="xyz_userbaseimfo">
+        <form action="/GM/UserList" method="post" onsubmit="return submit_sure()"> 
+            <div class="xyz_line">
+                <div class="xyz_line_left">用户名：</div>
+                <div class="xyz_line_right">
+                    {{userItem[0].UserName}}
+                </div>
+            </div>
+            <div class="xyz_line">
+                <div class="xyz_line_left">邮箱：</div>
+                <div class="xyz_line_right">
+                    {{userItem[0].UserEmail}}
+                </div>
+            </div>
+            <div class="xyz_line">
+                <div class="xyz_line_left">手机：</div>
+                <div class="xyz_line_right">
+                    {{userItem[0].UserPhone}}
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    function HomeB() {
+        var userItem = typeof @Html.Raw(ViewBag.UserItem) == 'string' ? JSON.parse(@Html.Raw(ViewBag.UserItem)) :@Html.Raw(ViewBag.UserItem);
+        //是string就转化成对象，不是string就直接用。
+        var xyzInformation = new Vue({
+            el: '#xyzInformation',
+            components: {},
+            data() {
+                return {
+                    userItem: userItem,
+                };
+            },
+            methods: {
+            },
+        });
+    }
+        //确认提交
+    function submit_sure() {
+            var cf = confirm("确定要进行这个操作吗?");
+            if (cf == true) {
+                return true;
+            } else {
+                return false;
+            }
+    }
+
+</script>
+<style scoped>
+    .xyz_userbaseimfo{
+
+    }
+    .xyz_line {
+        display: flex;
+        margin-top: 5px;
+    }
+
+    .xyz_line_left {
+        width: 85px;
+        font-family: "宋体";
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+        text-align: justify;
+        font-weight: bold;
+    }
+
+    .xyz_line_right {
+        width: 85px;
+        font-family: "宋体";
+        display: flex;
+        align-items: center;
+        font-size: 14px; 
+        font-weight: bold;
+    }
+     
+</style>

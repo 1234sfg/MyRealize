@@ -1,13 +1,154 @@
 ﻿
 @{
-    ViewBag.Title = "OrderList";
+    ViewBag.Title = "订单信息";
     Layout = "~/Views/Shared/GM_Layout.cshtml";
-}
-
-<h2>OrderList</h2>
-
+} 
+<div id="xyzOrders" >
+    <div class="xyz_order_title">
+        <div class="xyz_id">订单ID</div>
+        <div class="xyz_name">用户名</div>
+        <div class="xyz_proname">产品名</div>
+        <div class="xyz_price">价格</div>
+        <div class="xyz_num">数量</div>
+        <div class="xyz_allprice" >总价</div>
+        <div class="xyz_date">时间</div>
+        <div class="xyz_status">状态</div>
+        <div class="xyz_address">送货地址</div>
+        <div class="xyz_send">发货操作</div>
+    </div>
+    <div class="xyz_order_body" v-for="(item,OrderListIndex) in OrderItems" v-bind:key="OrderListIndex">  
+        <form action="/GM/OrderList" method="post" onsubmit="return submit_sure()" name="OrderItemsForm"> 
+            <input type="hidden" name="OrderId" v-bind:value="item.OrderId" />
+            <input type="hidden" name="ProductId" v-bind:value="item.ProductId" readonly="readonly" />
+            <input type="hidden" name="Quantity" v-bind:value="item.Quantity" readonly="readonly" />
+            <input type="hidden" name="OrderStatus" v-bind:value="item.OrderStatus" readonly="readonly" />
+            <div class="xyz_id">{{item.OrderId}}</div>
+            <div class="xyz_name"><a v-bind:href="'../GM/UserList?UserName='+item.UserName" target="_blank">{{item.UserName}}</a></div>
+            <div class="xyz_proname"><a v-bind:href="'../Home/ProductList?ProductId='+item.ProductId" target="_blank">{{item.ProductName}}</a></div>
+            <div class="xyz_price">{{item.ProductPrice}}</div>
+            <div class="xyz_num">{{item.Quantity}}</div>
+            <div class="xyz_allprice">{{item.AllPrice}}</div>
+            <div class="xyz_date">{{item.OrderTime}}</div>
+            <div class="xyz_status">{{item.OrderStatus}}</div>
+            <div class="xyz_address">{{item.ShopTo}}</div>
+            <div class="xyz_send">
+                <input v-if="item.OrderStatus=='已下单'" class="xyz_input_submit" type="submit" value="发货" name="OrderCURD" />
+                <div v-else>不可发货</div>
+            </div>
+        </form> 
+    </div> 
+</div>
 <script>
-    function HomeB() { }
+    function HomeB() {
+        var OrderItems = typeof @Html.Raw(ViewBag.OrderItems) == 'string' ? JSON.parse(@Html.Raw(ViewBag.OrderItems)) :@Html.Raw(ViewBag.OrderItems);
+             //MyCartItems
+        var xyzOrders = new Vue({
+            el: '#xyzOrders',
+                components: {},
+                data() {
+                    return {
+                        OrderItems: OrderItems, 
+                    };
+                },
+                methods: {
+                },
+            });  
+    } function submit_sure() {
+        var cf = confirm("确定要进行这个操作吗?");
+        if (cf == true) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 </script>
 <style scoped>
+    .xyz_order_title {
+        display: flex;
+        border-bottom: 1px solid black;
+        font-size:20px;
+        font-weight:bold;
+    }
+    .xyz_order_body form{
+        display:flex;
+        border-bottom:1px solid black;
+
+    }
+    .xyz_id {
+        width: 60px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .xyz_name {
+        width: 90px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .xyz_proname {
+        width: 100px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .xyz_price {
+        width: 80px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .xyz_num {
+        width: 80px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .xyz_allprice {
+        width: 100px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .xyz_date {
+        width: 130px;
+        display: flex;
+        justify-content: center;
+        align-items: center; 
+    }
+    .xyz_status {
+        width: 80px;
+        display: flex;
+        justify-content: center;
+        align-items: center; 
+    }
+    .xyz_address {
+        width: 200px;
+        display: flex;
+        justify-content: center;
+        align-items: center;  
+    }
+    .xyz_send {
+        width: 200px;
+        display: flex;
+        justify-content: center;
+        align-items: center; 
+    }
+    .xyz_input_submit {
+        width: 100px;
+        height: 30px;
+        margin: 0px;
+        text-decoration: none;
+        font: bold 16px 'Trebuchet MS',Arial, Helvetica;
+        display: inline-block;
+        text-align: center;
+        color: #fff;
+        border: 1px solid rgba(0, 0, 0, 0.3);
+        text-shadow: 0 1px 0 rgba(0,0,0,0.4);
+        box-shadow: 0 0 0.05em rgba(0,0,0,0.4);
+        -moz-box-shadow: 0 0 .05em rgba(0,0,0,0.4);
+        -webkit-box-shadow: 0 0 0.05em rgba(0,0,0,0.4);
+        border-radius: .3em;
+        background: -webkit-gradient(linear, left top, left bottom, from(#656565), to(#141414) );
+    }
 </style>

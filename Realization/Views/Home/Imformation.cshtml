@@ -4,48 +4,105 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Imformation</h2>
+<h2>个人信息</h2>
 <div id="xyzInformation" class="xyz-information">
     <!--个人信息-->
-    <div class="xyz-base-information">
+    <div class="xyz_baseimfo">
         <form action="/Home/Imformation" method="post" onsubmit="return submit_sure()">
             <!--姓名不能重复，手机不能重复，邮箱不能重复-->
-            <div>用户名：{{userItem[0].UserName}}</div>
-            <div>邮箱：<input type="text" name="Email" v-bind:value="userItem[0].UserEmail" required /> <input type="submit" value="修改" name="Alert_Email" /></div>
-            <div>手机：<input type="text" name="Phone" v-bind:value="userItem[0].UserPhone" required /> <input type="submit" value="修改" name="Alert_Phone" /></div>
+            <div class="xyz_line">
+                <div class="xyz_line_left">
+                    用户名：
+                </div>
+                <div class="xyz_line_right">
+                    {{userItem[0].UserName}}
+                </div>
+            </div>
+            <div class="xyz_line">
+                <div class="xyz_line_left">
+                    邮箱：
+                </div>
+                <div class="xyz_line_right">
+                    <input type="text" name="Email" v-bind:value="userItem[0].UserEmail" required />
+                </div>
+                <input type="submit" value="修改" class="xyz_input_submit" name="Alert_Email" />
+            </div>
+            <div class="xyz_line">
+                <div class="xyz_line_left">手机：</div>
+                <div class="xyz_line_right">
+                    <input type="text" name="Phone" v-bind:value="userItem[0].UserPhone" required />
+                </div>
+                <input type="submit" value="修改" class="xyz_input_submit" name="Alert_Phone" />
+            </div>
         </form>
         <a href="/Home/AlertUserPwd">修改密码</a>
     </div>
     <hr />
     <!--遍历收货地址，可修改删除-->
-    我的收货地址
-    <hr />
-    <div class="xyz-address" v-for="(item,addressIndex) in userAddressItems" v-bind:key="addressIndex">
+    <h2>我的收货地址</h2>
+    <a href="#xyz_addaddress">添加地址</a>
+    <div class="xyz_address" v-for="(item,addressIndex) in userAddressItems" v-bind:key="addressIndex">
         <form action="/Home/Imformation" method="post" onsubmit="return submit_sure()" name="AddressListForm">
             <input type="hidden" name="AddressId" v-bind:value="item.Id" />
-            <div>收货地址{{addressIndex+1}}</div>
-            <div>收货人姓名：<input type="text" name="Name" v-bind:value="item.Name" required /></div>
-            <div>收货人电话：<input type="text" name="Phone" v-bind:value="item.Phone" required /></div>
-            <div>收货人地址：<input type="text" name="Address" v-bind:value="item.Address" required /></div>
-            <input type="submit" value="修改" name="AddressCURD" />
-            <input type="submit" value="删除" name="AddressCURD" />
+            <div class="xyz_line">
+                <div class="xyz_line_left">收货地址{{addressIndex+1}}</div>
+            </div>
+            <div class="xyz_line">
+                <div class="xyz_line_left">姓名：</div><input type="text" name="Name" v-bind:value="item.Name" required />
+            </div>
+            <div class="xyz_line">
+                <div class="xyz_line_left">电话:</div>
+                <div class="xyz_line_right">
+                    <input type="text" name="Phone" v-bind:value="item.Phone" required />
+                </div>
+            </div>
+            <div class="xyz_line">
+                <div class="xyz_line_left">地址：</div>
+                <div class="xyz_line_right">
+                    <input type="text" name="Address" v-bind:value="item.Address" required />
+                </div>
+            </div>
+            <div class="xyz_line">
+                <input class="xyz_input_submit" type="submit" value="修改" name="AddressCURD" />
+                <input class="xyz_input_submit" type="submit" value="删除" name="AddressCURD" />
+            </div>
         </form>
     </div>
     <hr />
     <!--添加收货地址-->
-    <div v-if="userAddressItems.length<5">
-        添加收货地址
+    <div id="xyz_addaddress" v-if="userAddressItems.length<5">
+        <h2>添加收货地址</h2>
         <form action="/Home/Imformation" method="post" name="AddressAddform">
-            <div>收货人姓名：<input type="text" name="Name" required /></div>
-            <div>收货人电话：<input type="text" name="Phone" required /></div>
-            <div>收货人地址：<input type="text" name="Address" required /></div>
-            <input type="submit" value="添加" name="AddressCURD" />
+            <div class="xyz_line">
+                <div class="xyz_line_left">
+                    姓名：
+                </div>
+                <div class="xyz_line_right">
+                    <input type="text" name="Name" required />
+                </div>
+            </div>
+            <div class="xyz_line">
+                <div class="xyz_line_left">
+                    电话：
+                </div>
+                <div class="xyz_line_right">
+                    <input type="text" name="Phone" required />
+                </div>
+            </div>
+            <div class="xyz_line">
+                <div class="xyz_line_left">
+                    地址：
+                </div>
+                <div class="xyz_line_right">
+                    <input type="text" name="Address" required />
+                </div>
+            </div>
+            <div class="xyz_line"><input class="xyz_input_submit" type="submit" value="添加" name="AddressCURD" /></div>
         </form>
     </div>
 </div>
 <script>
     function HomeB() {
-        console.log("123");
         var userItem = typeof @Html.Raw(ViewBag.UserItem) == 'string' ? JSON.parse(@Html.Raw(ViewBag.UserItem)) :@Html.Raw(ViewBag.UserItem);
         var userAddressItems = typeof @Html.Raw(ViewBag.UserAddressItems) == 'string' ? JSON.parse(@Html.Raw(ViewBag.UserAddressItems)) :@Html.Raw(ViewBag.UserAddressItems);
         //是string就转化成对象，不是string就直接用。
@@ -64,25 +121,69 @@
     }
         //确认提交
     function submit_sure() {
-        //if (document.AddressListForm.submit.value == "修改") {
-        //    console.log("123123213")
             var cf = confirm("确定要进行这个操作吗?");
             if (cf == true) {
                 return true;
             } else {
                 return false;
             }
-        //}
-        //else if (document.AddressListForm.submit.value == "删除") {
-        //    var cf = confirm("确定删除吗?");
-        //    if (cf == true) {
-        //        return true;
-        //    } else {
-        //        return false;
-        //    }
-        //}
     }
 
 </script>
 <style scoped>
+    .xyz_baseimfo form {
+        margin-bottom: 10px;
+    }
+
+    .xyz_line {
+        display: flex;
+        height: 40px;
+        align-items: center;
+    }
+
+    .xyz_input_submit {
+        width: 80px;
+        height: 24px;
+        margin: 0px;
+        text-decoration: none;
+        font: bold 14px 'Trebuchet MS',Arial, Helvetica;
+        display: inline-block;
+        text-align: center;
+        color: #fff;
+        border: 1px solid rgba(0, 0, 0, 0.3);
+        text-shadow: 0 1px 0 rgba(0,0,0,0.4);
+        box-shadow: 0 0 0.05em rgba(0,0,0,0.4);
+        -moz-box-shadow: 0 0 .05em rgba(0,0,0,0.4);
+        -webkit-box-shadow: 0 0 0.05em rgba(0,0,0,0.4);
+        border-radius: .3em;
+        background: -webkit-gradient(linear, left top, left bottom, from(#656565), to(#141414) );
+    }
+
+    .xyz_line_left {
+        width: 85px;
+        font-family: "宋体";
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+        text-align: justify;
+        font-weight: bold;
+    }
+
+    .xyz_line_right {
+        margin-right: 20px;
+    }
+
+    .xyz_line {
+        display: flex;
+    }
+
+    .xyz_line_right input {
+        outline: none;
+        margin-right: 10px;
+    }
+
+    .xyz_line input {
+        outline: none;
+        margin-right: 10px;
+    }
 </style>

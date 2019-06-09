@@ -1,59 +1,56 @@
 ﻿
 @{
-    ViewBag.Title = "GMList";
+    ViewBag.Title = "管理员管理";
     Layout = "~/Views/Shared/GM_Layout.cshtml";
-    
+
 }
 
 <div id="xyzManagerList">
-    <h2>管理员列表</h2>
-    <div class="xyz-manager" v-for="(item,GMIndex) in ManagersItem" v-bind:key="GMIndex">
-        <form action="/GM/GMList" method="post"  name="ManagerListForm" onsubmit="return submit_sure()">
+    <div class="xyz_gmlist_title">
+        <div class="xyz_gmnum">管理员</div>
+        <div class="xyz_gmname">姓名</div>
+        <div class="xyz_gmpower">权限</div>
+        <div class="xyz_gmphone">联系方式</div>
+        <div class="xyz_gmdel">删除</div>
+    </div>
+    <div class="xyz_gmlist_body" v-for="(item,GMIndex) in ManagersItem" v-bind:key="GMIndex">
+        <form action="/GM/GMList" method="post" name="ManagerListForm" onsubmit="return submit_sure()">
             <input type="hidden" name="GMId" v-bind:value="item.Id" />
-            <div>管理员{{GMIndex+1}}</div>
-            <div>姓名：<input type="text" name="Name" v-bind:value="item.Name" required /></div>
-            <div>权限：<input type="text" name="Power" v-bind:value="item.Power" required /></div>
-            <div>电话：<input type="text" name="Phone" v-bind:value="item.Phone" required /></div>
-            <input type="submit" value="删除" name="GMManagersCURD" />
+            <div class="xyz_gmnum">管理员{{GMIndex+1}}</div>
+            <div class="xyz_gmname">{{item.Name}}</div>
+            <div class="xyz_gmpower">{{item.Power}}</div>
+            <div class="xyz_gmphone">{{item.Phone}}</div>
+            <div class="xyz_gmdel"><input class="xyz_input_submit" type="submit" value="删除" name="GMManagersCURD" /></div>
         </form>
     </div>
-    <hr/>
+    <hr />
     <div>
         <h2>添加管理员</h2>
-        <form action="/GM/GMList" method="post" onsubmit="return submit_sure()">
+        <form action="/GM/GMList" method="post" onsubmit="return submit_phone()" name="GMAddForm">
             <div class="Register">
-                <div class="line">
-                    <div class="line_left">
-                        <label>用户名</label>
+                <div class="xyz_line">
+                    <div class="xyz_line_left">
+                        用户名:
                     </div>
-                    <div class="line_right">
+                    <div class="xyz_line_right">
                         <input type="text" name="GMName" required />
                     </div>
                 </div>
                 <br />
-                <div class="line">
-                    <div class="line_left">
-                        <label>用户密码</label>
+                <div class="xyz_line">
+                    <div class="xyz_line_left">
+                        手机:
                     </div>
-                    <div class="line_right">
-                        <input type="password" name="GMPassword" required />
-                    </div>
-                </div>
-                <br />
-                <div class="line">
-                    <div class="line_left">
-                        <label>确认密码</label>
-                    </div>
-                    <div class="line_right">
-                        <input type="password" name="GMRePassword" required />
+                    <div class="xyz_line_right">
+                        <input type="number" name="GMPhone" required />
                     </div>
                 </div>
                 <br />
-                <div class="line">
-                    <div class="line_left">
-                        <label>权限</label>
+                <div class="xyz_line">
+                    <div class="xyz_line_left">
+                        权限:
                     </div>
-                    <div class="line_right">
+                    <div class="xyz_line_right">
                         <select name="GMPower">
                             <option>超级管理员</option>
                             <option>商品管理员</option>
@@ -62,17 +59,27 @@
                     </div>
                 </div>
                 <br />
-                <div class="line">
-                    <div class="line_left">
-                        <label>手机</label>
+
+                <div class="xyz_line">
+                    <div class="xyz_line_left">
+                        用户密码:
                     </div>
-                    <div class="line_right">
-                        <input type="text" name="GMPhone" required />
+                    <div class="xyz_line_right">
+                        <input type="password" name="GMPassword" required />
                     </div>
                 </div>
                 <br />
-                <div class="line">
-                    <input type="submit" value="添加" name="AddGMBtn" />
+                <div class="xyz_line">
+                    <div class="xyz_line_left">
+                        确认密码:
+                    </div>
+                    <div class="xyz_line_right">
+                        <input type="password" name="GMRePassword" required />
+                    </div>
+                </div>
+                <br />
+                <div class="xyz_line">
+                    <input type="submit" value="添加" class="xyz_input_submit" name="AddGMBtn" />
                 </div>
             </div>
         </form>
@@ -93,6 +100,16 @@
             },
         });
     }
+    function submit_phone() {
+        var Phone = GMAddForm.GMPhone.value;
+        var RegCellPhone = /^(1)([0-9]{10})?$/;
+        var falg = Phone.search(RegCellPhone);
+        if (falg == -1) {
+            alert("手机号不正确");
+            GMAddForm.GMPhone.focus();
+            return false;
+        }
+    }
     function submit_sure() {
         var cf = confirm("确定要进行这个操作吗?");
         if (cf == true) {
@@ -101,6 +118,116 @@
             return false;
         }
     }
+    @*//判断是否手机号
+    function isPhone() {
+        var Phone = 表单名.文本框名.value;
+        var RegCellPhone = /^(1)([0-9]{10})?$/;
+        var falg = Phone.search(RegCellPhone);
+        if (falg == -1) {
+            alert("手机号不正确");
+            GMAddForm.GMPhone.focus();
+        }
+    }
+    //判断邮箱
+    function isEmail(strEmail) {
+    var Email = 表单名.文本框名.value;
+    var flag = Email.search(/^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/);
+    if (flag == -1){
+        alert("邮箱不不正确");
+         }
+    }*@
 </script>
 <style scoped>
+    .xyz_gmlist_title {
+        display: flex;
+        border-bottom: 1px solid black;
+        width: 100%;
+        justify-content: space-between
+    }
+
+    .xyz_gmlist_body form {
+        display: flex;
+        border-bottom: 1px solid black;
+        width: 100%;
+        justify-content: space-between
+    }
+
+    .xyz_gmnum {
+        width: 85px;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .xyz_gmname {
+        width: 120px;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .xyz_gmpower {
+        width: 120px;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .xyz_gmphone {
+        width: 120px;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .xyz_gmdel {
+        width: 120px;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .xyz_input_submit {
+        width: 100px;
+        height: 30px;
+        margin: 0px;
+        text-decoration: none;
+        font: bold 16px 'Trebuchet MS',Arial, Helvetica;
+        display: inline-block;
+        text-align: center;
+        color: #fff;
+        border: 1px solid rgba(0, 0, 0, 0.3);
+        text-shadow: 0 1px 0 rgba(0,0,0,0.4);
+        box-shadow: 0 0 0.05em rgba(0,0,0,0.4);
+        -moz-box-shadow: 0 0 .05em rgba(0,0,0,0.4);
+        -webkit-box-shadow: 0 0 0.05em rgba(0,0,0,0.4);
+        border-radius: .3em;
+        background: -webkit-gradient(linear, left top, left bottom, from(#656565), to(#141414) );
+    }
+
+    .xyz_line_left {
+        width: 85px;
+        font-family: "宋体";
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+        text-align: justify;
+        font-weight: bold;
+    }
+
+    .xyz_line_right {
+    }
+
+        .xyz_line_right input {
+            outline: none;
+        }
+
+    .xyz_line {
+        display: flex;
+    }
 </style>

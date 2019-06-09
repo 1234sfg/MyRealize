@@ -1,37 +1,84 @@
 ﻿
 @{
-    ViewBag.Title = "GMLogin";
+    ViewBag.Title = "管理员登录";
     Layout = "~/Views/Shared/GM_Layout.cshtml";
-}
-<h2>管理员登录</h2>
-<form action="/GM/GMLogin" method="post">
-    <div class="login">
-        <div class="line">
-            <div class="line_left">
-                <label>管理员名</label>
+} 
+<form action="/GM/GMLogin" method="post" >
+    <div class="xyz_login_body">
+        <div class="xyz_line">
+            <div class="xyz_line_left">
+                <label>用户名:</label>
             </div>
-            <div class="line_right">
-                <input type="text" name="GMName" />
-            </div>
-        </div>
-        <br />
-        <div class="line">
-            <div class="line_left">
-                <label>管理员密码</label>
-            </div>
-            <div class="line_right">
-                <input type="password" name="GMPassword" />
+            <div class="xyz_line_right">
+                <input type="text" name="GMName" class="xyz_GMName" placeholder="请输入用户名" required/>
             </div>
         </div>
         <br />
-        <div class="line">
-            <input type="submit" value="登录" name="GMLogin" />
+        <div class="xyz_line">
+            <div class="xyz_line_left">
+                <label>密码:</label>
+            </div>
+            <div class="xyz_line_right">
+                <input type="password" name="GMPassword" class="xyz_GMPassword" placeholder="请输入密码" required/>
+            </div>
+        </div>
+        <br />
+        <div class="xyz_line">
+            <input type="submit" value="登录" name="GMLogin"  class="xyz_input_submit"/>
         </div>
     </div>
 </form>
 <script>
-    function HomeB() { }
+    function HomeB() { } 
 </script>
 <style scoped>
-    
+    .xyz_login_body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        min-height:400px;
+    }
+    .xyz_GMName, .xyz_GMPassword {
+        width: 200px;
+        height: 39px;
+    }
+    .xyz_line {
+        display: flex;
+        
+    }
+    .xyz_line_left {
+        width: 85px;
+        font-family: "宋体";
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+        text-align: justify;
+        font-weight: bold;
+    }
+
+    .xyz_line_right {
+    }
+        .xyz_line_right input {
+            outline: none;
+        }
+
+    .xyz_input_submit {
+        width: 100px;
+        height: 30px;
+        margin: 0px;
+        text-decoration: none;
+        font: bold 16px 'Trebuchet MS',Arial, Helvetica;
+        display: inline-block;
+        text-align: center;
+        color: #fff;
+        border: 1px solid rgba(0, 0, 0, 0.3);
+        text-shadow: 0 1px 0 rgba(0,0,0,0.4);
+        box-shadow: 0 0 0.05em rgba(0,0,0,0.4);
+        -moz-box-shadow: 0 0 .05em rgba(0,0,0,0.4);
+        -webkit-box-shadow: 0 0 0.05em rgba(0,0,0,0.4);
+        border-radius: .3em;
+        background: -webkit-gradient(linear, left top, left bottom, from(#656565), to(#141414) );
+    }
+   
 </style>

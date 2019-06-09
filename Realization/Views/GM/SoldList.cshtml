@@ -1,13 +1,243 @@
 ﻿
 @{
-    ViewBag.Title = "SoldList";
+    ViewBag.Title = "销售统计";
     Layout = "~/Views/Shared/GM_Layout.cshtml";
 }
+<h2>销售统计</h2>
+<div id="xyzSoldList">
+    <h3>完成的订单</h3>
+    <div class="xyz_order_title">
+        <div class="xyz_id">订单ID</div>
+        <div class="xyz_name">用户名</div>
+        <div class="xyz_proname">产品名</div>
+        <div class="xyz_price">价格</div>
+        <div class="xyz_num">数量</div>
+        <div class="xyz_allprice">总价</div>
+        <div class="xyz_date">时间</div>
+        <div class="xyz_status">状态</div>
+        <div class="xyz_address">送货地址</div>
+    </div>
+    <div class="xyz-orders xyz_order_body" v-for="(item,OrderIndex) in OrderItems" v-bind:key="OrderIndex">
+        <form action="/Home/SoldList" method="post" onsubmit="return submit_sure()" name="OrderItemsForm">
+            <div class="xyz_id">{{item.OrderId}}</div>
+            <input type="hidden" name="OrderId" v-bind:value="item.OrderId" />
+            <input type="hidden" name="ProductId" v-bind:value="item.ProductId" readonly="readonly" />
+            <div class="xyz_name"><a v-bind:href="'../GM/UserList?UserName='+item.UserName" target="_blank">{{item.UserName}}</a></div>
+            <div class="xyz_proname"><a v-bind:href="'../Home/ProductList?ProductId='+item.ProductId" target="_blank">{{item.ProductName}}</a></div>
+            <div class="xyz_price">{{item.ProductPrice}}</div>
+            <div class="xyz_num">{{item.Quantity}}</div>
+            <div class="xyz_allprice">{{item.AllPrice}}</div>
+            <div class="xyz_date">{{item.OrderTime}}</div>
+            <div class="xyz_status">{{item.OrderStatus}}</div>
+            <div class="xyz_address">{{item.ShopTo}}</div>
+        </form>
+    </div>
+    <hr>
+</div>
+<div id="xyzTheYearSold">
+    <h3 id="xyzTheYear">本年至今产品销售排行</h3>
+    <div class="xyz_theyear" v-for="(tyitem,TheYearIndex) in TheYearSold" v-bind:key="TheYearIndex">
+        <form action="/Home/SoldList" method="post" onsubmit="return submit_sure()" name="TheYearItemsForm">
+            <input type="hidden" name="ProductId" v-bind:value="tyitem.ProductId" readonly="readonly" />
+            <div class="xyz-theyear-row">产品名：<input type="text" name="ProductName" v-bind:value="tyitem.ProductName" readonly="readonly" /></div>
+            <div>销售量：<input type="text" name="AllQuantity" v-bind:value="tyitem.AllQuantity" readonly="readonly" /></div>
+        </form>
+    </div>
+    <hr>
+</div>
+<div id="xyzLastMonthSold">
+    <h3>上个月销售统计</h3>
+    <div class="xyz_lastmonth" v-for="(lmitem,LastMonthIndex) in LastMonthSold" v-bind:key="LastMonthIndex">
+        <form action="/Home/SoldList" method="post" onsubmit="return submit_sure()" name="TheYearItemsForm">
+            <input type="hidden" name="ProductId" v-bind:value="lmitem.ProductId" readonly="readonly" />
+            <div>产品名：<input type="text" name="ProductName" v-bind:value="lmitem.ProductName" readonly="readonly" /></div>
+            <div>销售量：<input type="text" name="AllQuantity" v-bind:value="lmitem.AllQuantity" readonly="readonly" /></div>
+        </form>
+    </div>
+    <hr>
+</div>
+<div id="xyzLastYearSold">
+    <h3>去年销售统计</h3>
+    <div class="xyz_lastyear" v-for="(lyitem,LastYearIndex) in LastYearSold" v-bind:key="LastYearIndex">
+        <form action="/Home/SoldList" method="post" onsubmit="return submit_sure()" name="TheYearItemsForm">
+            <input type="hidden" name="ProductId" v-bind:value="lyitem.ProductId" readonly="readonly" />
+            <div>产品名：<input type="text" name="ProductName" v-bind:value="lyitem.ProductName" readonly="readonly" /></div>
+            <div>销售量：<input type="text" name="AllQuantity" v-bind:value="lyitem.AllQuantity" readonly="readonly" /></div>
+        </form>
+    </div>
+</div>
 
-<h2>SoldList</h2>
-
+<div class="xyz-left-nav">
+    <a href="#xyzSoldList">全部订单</a>
+    <a href="#xyzTheYearSold">销售统计</a>
+    <a href="#xyzLastMonthSold">上月销售</a>
+    <a href="#xyzLastYearSold">上年销售</a>
+</div>
 <script>
-    function HomeB() { }
+    function HomeB() {
+        var OrderItems = typeof @Html.Raw(ViewBag.OrderItems) == 'string' ? JSON.parse(@Html.Raw(ViewBag.OrderItems)) :@Html.Raw(ViewBag.OrderItems);
+        var LastYearSold = typeof @Html.Raw(ViewBag.LastYearSold) == 'string' ? JSON.parse(@Html.Raw(ViewBag.LastYearSold)) :@Html.Raw(ViewBag.LastYearSold);
+        var TheYearSold = typeof @Html.Raw(ViewBag.TheYearSold) == 'string' ? JSON.parse(@Html.Raw(ViewBag.TheYearSold)) :@Html.Raw(ViewBag.TheYearSold);
+        var LastMonthSold = typeof @Html.Raw(ViewBag.LastMonthSold) == 'string' ? JSON.parse(@Html.Raw(ViewBag.LastMonthSold)) :@Html.Raw(ViewBag.LastMonthSold);
+
+        //是string就转化成对象，不是string就直接用。
+        var xyzSoldList = new Vue({
+            el: '#xyzSoldList',
+            data() {
+                return {
+                    OrderItems: OrderItems,
+                };
+            },
+        });
+        var xyzTheYearSold = new Vue({
+            el: '#xyzTheYearSold',
+            data() {
+                return {
+                    TheYearSold: TheYearSold,
+                };
+            },
+        });
+        var xyzLastYearSold = new Vue({
+            el: '#xyzLastYearSold',
+            data() {
+                return {
+                    LastYearSold: LastYearSold
+                };
+            },
+        });
+        var xyzLastMonthSold = new Vue({
+            el: '#xyzLastMonthSold',
+            data() {
+                return {
+                    LastMonthSold: LastMonthSold
+                };
+            },
+        });
+    }
+    function submit_sure() {
+        var cf = confirm("确定要进行这个操作吗?");
+        if (cf == true) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 </script>
 <style scoped>
+    #xyzTheYearSold {
+    }
+
+    .xyz_order_body form {
+        display: flex;
+        border-bottom: 1px solid black;
+    }
+
+    .xyz_order_title {
+        display: flex;
+        border-bottom: 1px solid black;
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+    .xyz-left-nav {
+        position: fixed;
+        right: 30px;
+        top: 30%;
+        display: flex;
+        flex-direction: column;
+        align-content: center;
+        justify-content: center;
+    }
+
+        .xyz-left-nav a {
+            color: white;
+            background-color: rgba(34,34,34,0.6);
+            text-decoration: none;
+            border-radius: 20%;
+            border: 2px solid black;
+            font-size: 14px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            flex-direction: column;
+            align-content: center;
+            justify-content: center;
+        }
+
+            .xyz-left-nav a:hover {
+                background-color: azure;
+                color: black;
+            }
+
+    .xyz_theyear form, .xyz_lastmonth form, .xyz_lastyear form{
+        display: flex;
+        border-bottom: 1px solid black;
+    }
+
+        .xyz_theyear form input, .xyz_lastmonth form input, .xyz_lastyear form input{
+            border: none;
+        }
+
+    .xyz_id {
+        width: 60px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .xyz_name {
+        width: 90px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .xyz_proname {
+        width: 100px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .xyz_price {
+        width: 80px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .xyz_num {
+        width: 80px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .xyz_allprice {
+        width: 100px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .xyz_date {
+        width: 130px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .xyz_status {
+        width: 80px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .xyz_address {
+        width: 200px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 </style>

@@ -36,8 +36,8 @@ E:\VSworkplace\xiaoyezi\xiaoyezi\Realization\obj\Debug\Realization.csproj.CoreCo
 E:\VSworkplace\xiaoyezi\xiaoyezi\Realization\obj\Debug\Realization.csproj.CopyComplete
 E:\VSworkplace\xiaoyezi\xiaoyezi\Realization\obj\Debug\Realization.dll
 E:\VSworkplace\xiaoyezi\xiaoyezi\Realization\obj\Debug\Realization.pdb
-E:\VSworkplace\xiaoyezi\xiaoyezi\Realization\obj\Debug\Realization.csprojAssemblyReference.cache
 E:\VSworkplace\xiaoyezi\xiaoyezi\Realization\bin\EntityFramework.dll
 E:\VSworkplace\xiaoyezi\xiaoyezi\Realization\bin\EntityFramework.SqlServer.dll
 E:\VSworkplace\xiaoyezi\xiaoyezi\Realization\bin\EntityFramework.xml
 E:\VSworkplace\xiaoyezi\xiaoyezi\Realization\bin\EntityFramework.SqlServer.xml
+E:\VSworkplace\xiaoyezi\xiaoyezi\Realization\obj\Debug\Realization.csprojAssemblyReference.cache

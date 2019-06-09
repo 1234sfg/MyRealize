@@ -1,64 +1,125 @@
 ﻿
 @{
-    ViewBag.Title = "Register";
+    ViewBag.Title = "用户注册";
 }
 
-<h2>注册</h2>
-
-<form action="/Home/Register" method="post">
-    <div class="Register">
-        <div class="line">
-            <div class="line_left">
-                <label>用户名</label>
+<form action="/Home/Register" method="post" name="UserRegisterForm" onsubmit="return submit_sure()" >
+    <div class="xyz_Register_body">
+        <div class="xyz_line">
+            <div class="xyz_line_left">
+                用户名:
             </div>
-            <div class="line_right">
-                <input type="text" name="UserNAME" required />
+            <div class="xyz_line_right">
+                <input type="text" name="UserNAME" placeholder="请输入用户名" required />
             </div>
         </div>
         <br />
-        <div class="line">
-            <div class="line_left">
-                <label>用户密码</label>
+        <div class="xyz_line">
+            <div class="xyz_line_left">
+               邮箱:
             </div>
-            <div class="line_right">
-                <input type="password" name="UserPWD" required />
-            </div>
-        </div>
-        <br />
-        <div class="line">
-            <div class="line_left">
-                <label>确认密码</label>
-            </div>
-            <div class="line_right">
-                <input type="password" name="UserPWDS" required />
+            <div class="xyz_line_right">
+                <input type="text" name="UserEMAIL" placeholder="请输入邮箱" required />
             </div>
         </div>
         <br />
-        <div class="line">
-            <div class="line_left">
-                <label>邮箱</label>
+        <div class="xyz_line">
+            <div class="xyz_line_left">
+               手机:
             </div>
-            <div class="line_right">
-                <input type="text" name="UserEMAIL" required />
-            </div>
-        </div>
-        <br />
-        <div class="line">
-            <div class="line_left">
-                <label>手机</label>
-            </div>
-            <div class="line_right">
-                <input type="text" name="UserPHONE" required />
+            <div class="xyz_line_right">
+                <input type="number" name="UserPHONE" placeholder="请输入手机号" required />
             </div>
         </div>
         <br />
-        <div class="line">
-            <input id="Register_Btn" type="submit" value="注册" OnClick="Register_Btn_Click" name="Register_Btn_Click" />
+        <div class="xyz_line">
+            <div class="xyz_line_left">
+                用户密码:
+            </div>
+            <div class="xyz_line_right">
+                <input type="password" name="UserPWD" placeholder="请输入密码" required />
+            </div>
+        </div>
+        <br />
+        <div class="xyz_line">
+            <div class="xyz_line_left">
+                确认密码:
+            </div>
+            <div class="xyz_line_right">
+                <input type="password" name="UserPWDS" placeholder="请再输入一次相同密码" required />
+            </div>
+        </div>
+        <br />
+        <div class="xyz_line xyz_submitbox">
+            <input id="Register_Btn" type="submit" value="注册" class="xyz_input_submit" OnClick="Register_Btn_Click" name="Register_Btn_Click" />
         </div>
     </div>
-</form>
+</form> 
 <script>
     function HomeB() { }
+    function submit_sure() {
+        var Phone = UserRegisterForm.UserPHONE.value;
+        var RegCellPhone = /^(1)([0-9]{10})?$/;
+        var falg = Phone.search(RegCellPhone);
+        if (falg == -1) {
+            alert("手机号格式不正确");
+            UserRegisterForm.UserPHONE.focus();
+            return false;
+        } else {
+            var Email = UserRegisterForm.UserEMAIL.value;
+            var flag = Email.search(/^\w+((-\w+)|(\.\w+))*\@@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/);
+            if (flag == -1){
+                alert("邮箱格式不正确");
+                UserRegisterForm.UserEMAIL.focus();
+                return false;
+         }
+        }
+    }
 </script>
 <style scoped>
+    .xyz_Register_body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        min-height: 400px;
+    }
+    .xyz_line {
+        display: flex; 
+    }
+    .xyz_submitbox {
+        align-items: center;
+    }
+    .xyz_line_left {
+        width: 85px;
+        font-family:"宋体";
+        display:flex;
+        align-items:center;
+        font-size:14px;
+        text-align:justify;
+        font-weight:bold;
+    }
+    .xyz_line_right{
+        
+    }
+    .xyz_line_right input {
+            outline: none;
+        }
+    .xyz_input_submit {
+        width: 100px;
+        height: 30px;
+        margin: 0px;
+        text-decoration: none;
+        font: bold 16px 'Trebuchet MS',Arial, Helvetica;
+        display: inline-block;
+        text-align: center;
+        color: #fff;
+        border: 1px solid rgba(0, 0, 0, 0.3);
+        text-shadow: 0 1px 0 rgba(0,0,0,0.4);
+        box-shadow: 0 0 0.05em rgba(0,0,0,0.4);
+        -moz-box-shadow: 0 0 .05em rgba(0,0,0,0.4);
+        -webkit-box-shadow: 0 0 0.05em rgba(0,0,0,0.4);
+        border-radius: .3em;
+        background: -webkit-gradient(linear, left top, left bottom, from(#656565), to(#141414) );
+    }
 </style>

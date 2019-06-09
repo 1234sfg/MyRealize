@@ -3,11 +3,135 @@
     ViewBag.Title = "MyOrders";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h2>MyOrders</h2>
-
+<div id="xyzMyOrders" class="xyz_myorders">
+    <div class="xyz_myorderItem" v-for="(item,MyOrderIndex) in MyOrderItems" v-bind:key="MyOrderIndex">
+        <form action="/Home/MyOrders" method="post" onsubmit="return submit_sure()" name="MyOrderItemsForm">
+            <div>
+                <div class="xyz_line xyz_ordernum">订单{{MyOrderIndex+1}}</div>
+            </div>
+                <div class="xyz_line"><div class="xyz_line_left">品名：</div><div class="xyz_line_right"><a v-bind:href="'../Home/ProductList?ProductId='+item.ProductId" target="_blank">{{item.ProductName}}</a></div></div>
+                <div class="xyz_line"><div class="xyz_line_left">价格：</div><div class="xyz_line_right">{{item.ProductPrice}}</div></div>
+                <div class="xyz_line"><div class="xyz_line_left">数量：</div><div class="xyz_line_right">{{item.Quantity}}</div></div>
+                <div class="xyz_line"><div class="xyz_line_left">总价：</div><div class="xyz_line_right">{{item.AllPrice}}</div></div>
+                <div class="xyz_line"><div class="xyz_line_left">时间：</div><div class="xyz_line_right">{{item.OrderTime}}</div></div>
+                <div class="xyz_line"><div class="xyz_line_left">状态：</div><div class="xyz_line_right">{{item.OrderStatus}}</div></div>
+                <div class="xyz_line"><div class="xyz_line_left">地址：</div><div class="xyz_line_right">{{item.ShopTo}}</div></div>
+                <div class="xyz_line" v-if="item.OrderStatus=='已下单'">
+                    <div class="xyz_line_left">原因：</div>
+                    <div class="xyz_line_right"><input type="text" name="Reason" placeholder="填写原因才能取消订单" required /></div>
+                </div>
+                <div class="xyz_line xyz_operation">
+                    <input v-if="item.OrderStatus=='已下单'" type="submit" value="取消订单" class="xyz_input_submit" name="OrderCURD" />
+                    <input v-if="item.OrderStatus=='派送中'" type="submit" value="确认收货" class="xyz_input_submit" name="OrderCURD" />
+                </div>
+                    <!--提交的数据-->
+                    <div>
+                        <input type="hidden" name="OrderId" v-bind:value="item.OrderId" />
+                        <input type="hidden" name="ProductId" v-bind:value="item.ProductId" readonly="readonly" />
+                        <input type="hidden" name="ProductName" v-bind:value="item.ProductName" readonly="readonly" />
+                        <input type="hidden" name="ProductPrice" v-bind:value="item.ProductPrice" readonly="readonly" />
+                        <input type="hidden" name="Quantity" v-bind:value="item.Quantity" readonly="readonly" />
+                        <input type="hidden" name="AllPrice" v-bind:value="item.AllPrice" readonly="readonly" />
+                        <input type="hidden" name="OrderTime" v-bind:value="item.OrderTime" readonly="readonly" />
+                        <input type="hidden" name="OrderStatus" v-bind:value="item.OrderStatus" readonly="readonly" />
+                        <input type="hidden" name="ShopTo" v-bind:value="item.ShopTo" readonly="readonly" />
+                    </div>
+</form>
+    </div>
+    <hr />
+</div>
 <script>
-    function HomeB() { }
+        function HomeB() {
+            var MyOrderItems = typeof @Html.Raw(ViewBag.MyOrderItems) == 'string' ? JSON.parse(@Html.Raw(ViewBag.MyOrderItems)) :@Html.Raw(ViewBag.MyOrderItems);
+             //MyCartItems
+            var xyzMyOrders = new Vue({
+                el: '#xyzMyOrders',
+                components: {},
+                data() {
+                    return {
+                        MyOrderItems: MyOrderItems,
+                    };
+                },
+                methods: {
+                },
+            });
+        }
+        function submit_sure() {
+            var cf = confirm("确定要进行这个操作吗?");
+            if (cf == true) {
+                return true;
+            } else {
+                return false;
+            }
+        }
 </script>
 <style scoped>
+    .xyz_ordernum{
+        font-size:24px;
+    }
+    .xyz_myorders {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap; 
+    }
+
+    .xyz_myorderItem {
+        width: 24%;
+        min-height: 300px;
+        height: auto;
+        border-radius: 4px;
+        border: 2px solid black;
+        padding: 25px;
+        margin:0px 5px 5px 0px;
+    }
+    
+    .xyz_operation{
+        justify-content:center;
+        border:none!important;
+        margin-top:5px;
+    }
+    .xyz_line {
+        display: flex;
+        border-bottom: 1px solid black;
+    }
+
+    .xyz_line_left {
+        width: 60px;
+        font-family: "宋体";
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+        text-align: justify;
+        font-weight: bold;
+    }
+
+    .xyz_line_right {
+        font-family: "宋体";
+        display: flex;
+        align-items: center;
+        font-size: 12px;
+        text-align: justify;
+    }
+
+        .xyz_line_right input {
+            outline: none;
+        }
+    .xyz_input_submit {
+        width: 100px;
+        height: 30px;
+        margin: 0px;
+        text-decoration: none;
+        font: bold 16px 'Trebuchet MS',Arial, Helvetica;
+        display: inline-block;
+        text-align: center;
+        color: #fff;
+        border: 1px solid rgba(0, 0, 0, 0.3);
+        text-shadow: 0 1px 0 rgba(0,0,0,0.4);
+        box-shadow: 0 0 0.05em rgba(0,0,0,0.4);
+        -moz-box-shadow: 0 0 .05em rgba(0,0,0,0.4);
+        -webkit-box-shadow: 0 0 0.05em rgba(0,0,0,0.4);
+        border-radius: .3em;
+        background: -webkit-gradient(linear, left top, left bottom, from(#656565), to(#141414) );
+    }
+   
 </style>

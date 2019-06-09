@@ -65,7 +65,7 @@
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("商品", "ProductList", "GM")</li>
                     @*新产品添加，旧产品删除，修改*@
-                    <li>@Html.ActionLink("订单", "StockList", "GM")</li>
+                    <li>@Html.ActionLink("订单", "OrderList", "GM")</li>
                     @*出货*@
                     <li>@Html.ActionLink("库存", "StockList", "GM")</li>
                     @*进货*@
@@ -74,15 +74,16 @@
                     <li>@Html.ActionLink("客户留言", "UserMessages", "GM")</li>
                     @*查询客户留言*@
                     @*点击名字后查询客户基本信息*@
-                    <li>@Html.ActionLink("售后", "UserReasons", "GM")</li>
+                    <li>@Html.ActionLink("售后", "ReasonList", "GM")</li>
                     @*退货处理交流*@
                     @*点击名字后查询客户基本信息*@
+                    <li>@Html.ActionLink("供应商", "ProviderList", "GM")</li>
                 </ul>
                 <ul v-if="GMLogin" class="nav navbar-nav navbar-right">
                     <li>@Html.ActionLink("登录", "GMLogin", "GM")</li>
                 </ul>
                 <ul v-else class="nav navbar-nav navbar-right">
-                    <li><a href="#">你好，@Session["GMPower"]：@Session["GMUsers"]</a></li>
+                    <li><a href="../GM/AlertGMPwd">你好，@Session["GMPower"]：@Session["GMUsers"]</a></li>
                     <li>@Html.ActionLink("注销", "GMLogout", "GM")</li>
                 </ul>
             </div>

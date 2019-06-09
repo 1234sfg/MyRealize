@@ -1,14 +1,46 @@
 ﻿@{
-    ViewBag.Title = "关于";
+    ViewBag.Title = "立荣电器企业简介";
 }
 <h2>@ViewBag.Title</h2>
 
-<p>
-    杭州萧山河上镇立荣电器商店成立于2009-06-08，位于河上镇大溪路79号，属于批发和零售业。
-    主要销售以空调为主的各类品牌家电。
-</p>
+<div class="xyz_introbody">
+    <div class="xyz_birth xyz_line">杭州萧山河上镇立荣电器商店成立于2009-06-08。地址位于河上镇大溪路79号，属于批发和零售业。</div>
+    <div class="xyz_mainsell xyz_line"><div class="xyz_line_left">主要销售:</div><div class="xyz_line_right">空调</div></div>
+    <div class="xyz_othersell xyz_line">
+        <div class="xyz_line_left">其他销售：</div><div class="xyz_line_right">各类品牌家电。</div>
+    </div>
+    <div class="xyz_line">
+        <a href="https://www.qichacha.com/firm_e1f1992f81fd7edc7187f89eb1c02728.html" target="_blank">企查查企业信息</a>
+    </div>
+</div>
+
 <script>
     function HomeB() { }
 </script>
 <style scoped>
+    .xyz_introbody {
+        min-height:400px;
+    }
+
+    .xyz_birth {
+        font-size:16px;
+        font-family:"楷体";
+        font-weight:bolder;
+    }  
+    .xyz_mainsell {
+        font-size:16px;
+        font-weight:500;
+    }
+    .xyz_othersell {
+        font-size: 14px;
+        font-weight: 300;
+    }
+    .xyz_line{
+        display:flex;
+        margin-top:18px;
+    }
+    .xyz_line_left{
+        width:100px;
+    }
+    .xyz_line_right{width:auto}
 </style>

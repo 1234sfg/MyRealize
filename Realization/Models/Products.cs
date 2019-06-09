@@ -16,5 +16,8 @@ namespace Realization.Models
         public string ProductModel { set; get; }
         public string ProductDetail { set; get; }
         public string ProductPath { set; get; }
+        public string ProviderName { set; get; }
+        public int Identifier { set; get; }
+
     }
-}
+    }

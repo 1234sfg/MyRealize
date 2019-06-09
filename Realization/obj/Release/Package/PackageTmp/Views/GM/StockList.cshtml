@@ -3,11 +3,173 @@
     ViewBag.Title = "StockList";
     Layout = "~/Views/Shared/GM_Layout.cshtml";
 }
+<div id="xyz-StockList">
+    <h2>仓库列表</h2>
+    <div class="xyz-stock-list">
+        <div class="xyz_formtitle">
+            <div class="xyz_model">型号</div>
+            <div class="xyz_amount">现有数量</div>
+            <div class="xyz_alertamount">进货数量</div>
+            <div class="xyz_crud">操作</div>
+        </div>
+        <div class="xyz_stockitem" v-for="(item,stockIndex) in StocksList" v-bind:key="stockIndex">
+            <form class="xyz_formbody" action="/GM/StockList" method="post" onsubmit="return submit_sure()">
+                <input type="hidden" name="ProductId" v-bind:value="item.ProductId" readonly />
+                <div class="xyz_model"><a v-bind:href="'../Home/ProductList?ProductId='+item.ProductId" target="_blank">{{item.ProductModel}}</a></div>
+                <div class="xyz_amount">{{item.ProductAmount}}</div>
+                <div class="xyz_alertamount"><input type="number" name="AlertAmount" min="0" placeholder="请输入进货数量" required /></div>
+                <div class="xyz_crud">
+                    <input type="submit" name="StockCRUD" class="xyz_input_submit" value="进货">
+                    <input type="submit" name="StockCRUD" class="xyz_input_submit" value="下架">
+                </div>
+            </form>
+        </div>
+    </div>
+    <h2>未上架产品</h2>
 
-<h2>StockList</h2>
+    <div class="xyz_addstock" v-for="(item,stockIndex) in ProNotStocksList" v-bind:key="stockIndex">
+        <form action="/GM/StockList" method="post" onsubmit="return submit_sure()">
+            <div class="xyz_line">
+                <div class="xyz_line_left">
+                    产品Id:
+                </div>
+                <div class="xyz_line_right">
+                    <input type="hidden" name="ProductId" v-bind:value="item.ProductId" readonly />
+                    {{item.ProductId}}
+                </div>
+            </div>
+            <div class="xyz_line">
+                <div class="xyz_line_left">
+                    产品型号:
+                </div>
+                <div class="xyz_line_right">
+                    <input type="hidden" name="ProductModel" v-bind:value="item.ProductModel" readonly />
+                    {{item.ProductModel}}
+                </div>
+            </div>
+            <div class="xyz_line">
+                <input type="submit" name="StockCRUD" class="xyz_input_submit" value="上架">
+            </div>
+        </form>
+    </div>
 
+</div>
 <script>
-    function HomeB() { }
+    function HomeB() {
+        var StocksList = typeof @Html.Raw(ViewBag.StocksList) == 'string' ? JSON.parse(@Html.Raw(ViewBag.StocksList)) :@Html.Raw(ViewBag.StocksList);
+        var ProNotStocksList = typeof @Html.Raw(ViewBag.ProNotStocksList) == 'string' ? JSON.parse(@Html.Raw(ViewBag.ProNotStocksList)) :@Html.Raw(ViewBag.ProNotStocksList);
+        //是string就转化成对象，不是string就直接用。
+        var xyzStockList = new Vue({
+            el: '#xyz-StockList',
+            components: {},
+            data() {
+                return {
+                    StocksList: StocksList,
+                    ProNotStocksList: ProNotStocksList,
+
+                };
+            },
+            methods: {
+            },
+        });
+
+    }
+    function submit_sure() {
+        var cf = confirm("确定要进行这个操作吗?");
+        if (cf == true) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 </script>
 <style scoped>
+    .xyz_formtitle, .xyz_formbody {
+        display: flex;
+    }
+
+    .xyz_stockitem {
+        margin-top: 10px;
+    }
+
+    .xyz_formtitle div {
+        font-size: 20px;
+        font-weight: bold;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .xyz_addstock form {
+        display:flex;  
+        height:50px;
+        align-items:center;
+    }
+    .xyz_line {
+        display: flex;
+        margin-top: 5px;
+    }
+
+    .xyz_line_left {
+        width: 85px;
+        font-family: "宋体";
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+        text-align: justify;
+        font-weight: bold;
+    }
+
+    .xyz_line_right {
+        width: 85px;
+        font-family: "宋体";
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+    }
+    .xyz_model {
+        width: 220px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .xyz_amount {
+        width: 150px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .xyz_alertamount {
+        width: 150px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .xyz_crud {
+        width: 220px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .xyz_input_submit {
+        width: 90px;
+        height: 27px;
+        margin: 0px;
+        text-decoration: none;
+        font: bold 16px 'Trebuchet MS',Arial, Helvetica;
+        display: inline-block;
+        text-align: center;
+        color: #fff;
+        border: 1px solid rgba(0, 0, 0, 0.3);
+        text-shadow: 0 1px 0 rgba(0,0,0,0.4);
+        box-shadow: 0 0 0.05em rgba(0,0,0,0.4);
+        -moz-box-shadow: 0 0 .05em rgba(0,0,0,0.4);
+        -webkit-box-shadow: 0 0 0.05em rgba(0,0,0,0.4);
+        border-radius: .3em;
+        background: -webkit-gradient(linear, left top, left bottom, from(#656565), to(#141414) );
+    }
 </style>

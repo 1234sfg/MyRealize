@@ -1,13 +1,154 @@
 ﻿
 @{
-    ViewBag.Title = "Carts";
+    ViewBag.Title = "购物车";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<div class="xyz_manageAddress"><a href="/Home/Imformation#" target="_blank">管理收货地址</a></div>
+<div id="xyzMyCarts" class="xyz_mycarts"> 
+    <div class="xyz_cartsbody" v-for="(item,MyCartIndex) in MyCartItems" v-bind:key="MyCartIndex">
+        <form action="/Home/Carts" method="post" onsubmit="return submit_sure()" name="MyCartItemsForm">
+            <input type="hidden" name="Id" v-bind:value="item.Id" />
+            <input type="hidden" name="ProductId" v-bind:value="item.ProductId" readonly="readonly" />
+            <input type="hidden" name="ProductName" v-bind:value="item.ProductName" readonly="readonly" />
+            <input type="hidden" name="ProductPrice" v-bind:value="item.ProductPrice" readonly="readonly" />
+            <input type="hidden" name="Quantity" v-bind:value="item.Quantity" readonly="readonly" />
+            <div class="xyz_line">
+                <div class="xyz_line_left">
+                    产品名：
+</div>
+                <div class="xyz_line_right">
+                    <a v-bind:href="'../Home/ProductList?ProductId='+item.ProductId" target="_blank">{{item.ProductName}}</a>
+</div>
+            </div><div class="xyz_line">
+                <div class="xyz_line_left">
+                    产品单价：
+                </div>
+                <div class="xyz_line_right">
+                    {{item.ProductPrice}}
+                </div>
+            </div><div class="xyz_line">
+                      <div class="xyz_line_left">
+                          数量:
+                      </div>
+                <div class="xyz_line_right">
+                    {{item.Quantity}}
+                </div>
+            </div>  <div class="xyz_line">
+                      <div class="xyz_line_left">
+                          总价:
+                      </div>
+                      <div class="xyz_line_right">
+                          {{item.ProductPrice * item.Quantity}}
+                      </div>
+            </div> 
+            <div class="xyz_line">
+                <div class="xyz_line_left">
+                    地址:
+                </div>
+                <div class="xyz_line_right">
+                    <select name="ShopTo">
+                        <option v-for="(aitem,AddressIndex) in AddressItems" v-bind:key="AddressIndex">{{aitem.Name}}+{{aitem.Phone}}+{{aitem.Address}}</option>
+                    </select> 
+                </div>
+            </div>
+            <div class="xyz_line xyz_curd">
+                <input type="submit" class="xyz_input_submit" value="下单" name="CartsCURD" />
+                <input type="submit" class="xyz_input_submit" value="删除" name="CartsCURD" />
+            </div>
 
-<h2>Carts</h2>
+</form>
+    </div>  
+</div>
+    <script>
+        function HomeB() { 
+            var MyCartItems = typeof @Html.Raw(ViewBag.MyCartItems) == 'string' ? JSON.parse(@Html.Raw(ViewBag.MyCartItems)) :@Html.Raw(ViewBag.MyCartItems);
+            var AddressItems = typeof @Html.Raw(ViewBag.AddressItems) == 'string' ? JSON.parse(@Html.Raw(ViewBag.AddressItems)) :@Html.Raw(ViewBag.AddressItems);
+            if (AddressItems.length < 1) {
+                alert('请填写收货地址')
+                window.location.href = '../Home/imformation'
+            };
+            //MyCartItems
+            var xyzMyCarts = new Vue({
+                el: '#xyzMyCarts',
+                components: {},
+                data() {
+                    return {
+                        MyCartItems: MyCartItems,
+                        AddressItems: AddressItems,
+                    };
+                },
+                methods: {
+                },
+            });
+        }
+        function submit_sure() {
+            var cf = confirm("确定要进行这个操作吗?");
+            if (cf == true) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    </script>
+    <style scoped>
+        .xyz_mycarts{ 
+        }
 
-<script>
-    function HomeB() { }
-</script>
-<style scoped>
-</style>
+        .xyz_cartsbody form{ 
+            margin-top:10px;
+            border-bottom:1px solid black;
+        }
+        .xyz_manageAddress {
+            position: fixed;
+            left: 10px;
+            top: 40%;
+            width: 20px;
+            border: 1px solid rgba(33, 33, 33,0.3);
+        }
+            .xyz_manageAddress a {
+                width: 20px;
+                text-decoration:none;
+            }
+
+        .xyz_input_submit {
+            width: 90px;
+            height: 27px;
+            margin: 0px;
+            text-decoration: none;
+            font: bold 16px 'Trebuchet MS',Arial, Helvetica;
+            display: inline-block;
+            text-align: center;
+            color: #fff;
+            border: 1px solid rgba(0, 0, 0, 0.3);
+            text-shadow: 0 1px 0 rgba(0,0,0,0.4);
+            box-shadow: 0 0 0.05em rgba(0,0,0,0.4);
+            -moz-box-shadow: 0 0 .05em rgba(0,0,0,0.4);
+            -webkit-box-shadow: 0 0 0.05em rgba(0,0,0,0.4);
+            border-radius: .3em;
+            background: -webkit-gradient(linear, left top, left bottom, from(#656565), to(#141414) );
+        }
+        .xyz_line_left {
+            width: 85px;
+            font-family: "宋体";
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            text-align: justify;
+            font-weight: bold;
+        }
+
+        .xyz_line_right {
+        }
+
+            .xyz_line_right input {
+                outline: none;
+            }
+
+        .xyz_line {
+            display: flex;
+            margin-top:5px;
+        }
+        .xyz_curd{
+            margin-bottom:5px;
+        }
+    </style>

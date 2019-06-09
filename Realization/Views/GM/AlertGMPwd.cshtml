@@ -1,15 +1,33 @@
 ﻿
 @{
-    ViewBag.Title = "AlertGMPwd";
+    ViewBag.Title = "管理员修改密码";
     Layout = "~/Views/Shared/GM_Layout.cshtml";
 }
 
-<h2>AlertGMPwd</h2>
 
 <form action="/GM/AlertGMPwd" method="post" onsubmit="return submit_sure()">
-    新密码：<input type="text" name="NewPwd" required />
-    确认密码：<input type="text" name="ConfirmPwd" required />
-    <input type="submit" value="确认修改" name="AlertPwd" />
+    <div class="xyz_AlertGMPwd_body">
+        <div class="xyz_line">
+            <div class="xyz_line_left">
+                新密码：
+            </div>
+            <div class="xyz_line_right">
+                <input type="password" name="NewPwd" required />
+            </div>
+            <br />
+        </div><br />
+        <div class="xyz_line">
+            <div class="xyz_line_left">
+                确认密码：
+            </div>
+            <div class="xyz_line_right">
+                <input type="password" name="ConfirmPwd" required />
+            </div>
+        </div><br />
+        <div class="xyz_line xyz_submitbox">
+            <input type="submit" value="确认修改" class="xyz_input_submit" name="AlertPwd" />
+        </div>
+    </div>
 </form>
 <script>
     function HomeB() { }
@@ -24,4 +42,47 @@
 </script>
 
 <style scoped>
+    .xyz_AlertGMPwd_body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .xyz_line {
+        display: flex;
+    }
+    .xyz_line_left {
+        width: 85px;
+        font-family: "宋体";
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+        text-align: justify;
+        font-weight: bold;
+    }
+    .xyz_line_right {
+    }
+    .xyz_line_right input {
+            outline: none;
+        }
+    .xyz_input_submit {
+        width: 100px;
+        height: 30px;
+        margin: 0px;
+        text-decoration: none;
+        font: bold 16px 'Trebuchet MS',Arial, Helvetica;
+        display: inline-block;
+        text-align: center;
+        color: #fff;
+        border: 1px solid rgba(0, 0, 0, 0.3);
+        text-shadow: 0 1px 0 rgba(0,0,0,0.4);
+        box-shadow: 0 0 0.05em rgba(0,0,0,0.4);
+        -moz-box-shadow: 0 0 .05em rgba(0,0,0,0.4);
+        -webkit-box-shadow: 0 0 0.05em rgba(0,0,0,0.4);
+        border-radius: .3em;
+        background: -webkit-gradient(linear, left top, left bottom, from(#656565), to(#141414) );
+    }
+    .xyz_submitbox {
+        align-items: center;
+    }
 </style>
